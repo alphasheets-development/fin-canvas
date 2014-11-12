@@ -1,0 +1,22 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../fin-rectangle/fin-rectangle.html">
+<script src="js/FractionalLayoutManager.js"></script>
+<script src="js/OFCanvasComponent.js"></script>
+<script src="js/OFCanvasCompositeComponent.js"></script>
+<script src="js/OFCanvas.js"></script>
+<script src="js/OFCanvasBorderComponent.js"></script>
+<polymer-element name="fin-canvas">
+  <template>
+    <link rel="stylesheet" href="fin-canvas.css" />
+    <canvas class="buffer"></canvas>
+    <canvas class="canvas"></canvas>
+    <button></button>
+  </template>
+  <script>
+  Polymer('fin-canvas',{ /* jshint ignore:line */
+    ready: function() {
+        fin.wc.canvas.OFCanvas(this);
+    }
+});
+  </script>
+</polymer-element>

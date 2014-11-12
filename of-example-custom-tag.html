@@ -1,0 +1,16 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="fin-canvas.html">
+<script src="js/OFExampleCustomTag.js"></script>
+<polymer-element name="of-example-custom-tag">
+  <template>
+      <link rel="stylesheet" href="of-example-custom-tag.css" />
+      <fin-canvas fps="30"></fin-canvas>
+  </template>
+  <script>
+    Polymer('of-example-custom-tag',{
+      ready: function() {
+        fin.wc.canvas.OFExampleCustomTag(this);
+      }
+    });
+  </script>
+</polymer-element>
