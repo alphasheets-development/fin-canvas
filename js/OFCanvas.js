@@ -14,7 +14,7 @@
         self.canvas = shadowRoot.querySelector('.canvas');
         self.canvasCTX = self.canvas.getContext('2d');
 
-        self.buffer = shadowRoot.querySelector('.buffer');
+        self.buffer = document.createElement('canvas');
         self.ctx = self.buffer.getContext('2d');
 
         var fps = self.getAttribute('fps') || 60;
