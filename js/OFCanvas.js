@@ -33,13 +33,13 @@
         var repeatKeyStartTime = 0;
         var currentKeys = [];
 
-        focuser.style.position = 'static';
-        focuser.style.top = 0;
-        focuser.style.right = '100%';
-        focuser.style.bottom = '100%';
-        focuser.style.left = 0;
-        focuser.style.padding = 0;
-        focuser.style.border = 0;
+        // focuser.style.position = 'static';
+        // focuser.style.top = 0;
+        // focuser.style.right = '100%';
+        // focuser.style.bottom = '100%';
+        // focuser.style.left = 0;
+        // focuser.style.padding = 0;
+        // focuser.style.border = 0;
 
         component.setParent(self);
 
@@ -285,6 +285,7 @@
 
         var offocusgained = function(e) {
             focused = true;
+            console.log('focus gained ' + Date.now());
             self.dispatchEvent(new CustomEvent('of-focus-gained', {
                 detail: {
                     e: e
@@ -294,6 +295,7 @@
 
         var offocuslost = function(e) {
             focused = false;
+            console.log('focus lost ' + Date.now());
             self.dispatchEvent(new CustomEvent('of-focus-lost', {
                 detail: {
                     e: e
