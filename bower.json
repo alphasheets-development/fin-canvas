@@ -9,7 +9,7 @@
   "main": "fin-canvas.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^0.4.0",
-    "fin-rectangle": "#^0.2.0"
+    "fin-rectangle": "#^0.2.2"
   },
   "devDependencies": {
     "polymer-test-tools": "Polymer/polymer-test-tools#^0.4.0"

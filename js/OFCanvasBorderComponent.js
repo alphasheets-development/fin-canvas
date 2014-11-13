@@ -44,7 +44,7 @@
             supr.setBounds(rectangle);
             var lw = this.getBorderThickness();
             var extent = rectangle.extent;
-            var rect = new g.Rectangle(lw, lw, extent.x - 2 * lw, extent.y - 2 * lw);
+            var rect = new g.create.Rectangle(lw, lw, extent.x - 2 * lw, extent.y - 2 * lw);
             component.setBounds(rect);
         };
 

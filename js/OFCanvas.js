@@ -21,11 +21,11 @@
         var repaintNow = false;
         var size = null;
         var component = new OFCanvasCompositeComponent();
-        var mouseLocation = new g.Point(-1, -1);
+        var mouseLocation = new g.create.Point(-1, -1);
         var mousedown = false;
         var dragging = false;
-        var dragstart = new g.Point(-1, -1);
-        var origin = new g.Point(0, 0);
+        var dragstart = new g.create.Point(-1, -1);
+        var origin = new g.create.Point(0, 0);
         var focuser = shadowRoot.querySelector('button');
         var focused = false;
         var repeatKeyCount = 0;
@@ -79,8 +79,8 @@
             self.buffer.height = self.clientHeight;
 
             size = self.getBoundingClientRect();
-            origin = new g.Point(size.left, size.top);
-            self.bounds = new g.Rectangle(0, 0, size.width, size.height);
+            origin = new g.create.Point(size.left, size.top);
+            self.bounds = new g.create.Rectangle(0, 0, size.width, size.height);
             //setTimeout(function() {
             if (component) {
                 component.setBounds(self.bounds);
@@ -133,9 +133,9 @@
                         keys: currentKeys
                     }
                 }));
-                dragstart = new g.Point(mouseLocation.x, mouseLocation.y);
+                dragstart = new g.create.Point(mouseLocation.x, mouseLocation.y);
             }
-            mouseLocation = new g.Point((e.x || e.layerX) - o.x, (e.y || e.layerY) - o.y);
+            mouseLocation = new g.create.Point((e.x || e.layerX) - o.x, (e.y || e.layerY) - o.y);
             if (dragging) {
                 self.dispatchEvent(new CustomEvent('of-drag', {
                     detail: {
@@ -157,12 +157,12 @@
 
         var ofmousedown = function(e) {
 
-            mouseLocation = new g.Point((e.offsetX || e.layerX), (e.offsetY || e.layerY));
+            mouseLocation = new g.create.Point((e.offsetX || e.layerX), (e.offsetY || e.layerY));
             mousedown = true;
 
             self.dispatchEvent(new CustomEvent('of-mousedown', {
                 detail: {
-                    mouse: new g.Point((e.offsetX || e.layerX), (e.offsetY || e.layerY)),
+                    mouse: new g.create.Point((e.offsetX || e.layerX), (e.offsetY || e.layerY)),
                     keys: currentKeys
                 }
             }));
@@ -182,7 +182,7 @@
                 dragging = false;
             }
             mousedown = false;
-            mouseLocation = new g.Point(-1, -1);
+            mouseLocation = new g.create.Point(-1, -1);
             self.dispatchEvent(new CustomEvent('of-mouseup', {
                 detail: {
                     mouse: mouseLocation,
@@ -193,7 +193,7 @@
 
         var ofmouseout = function() {
             if (!mousedown) {
-                mouseLocation = new g.Point(-1, -1);
+                mouseLocation = new g.create.Point(-1, -1);
             }
             self.dispatchEvent(new CustomEvent('of-mouseout', {
                 detail: {
@@ -204,7 +204,7 @@
         };
 
         var ofclick = function(e) {
-            mouseLocation = new g.Point(e.offsetX, e.offsetY);
+            mouseLocation = new g.create.Point(e.offsetX, e.offsetY);
             self.dispatchEvent(new CustomEvent('of-click', {
                 detail: {
                     mouse: mouseLocation,
@@ -214,7 +214,7 @@
         };
 
         var ofdblclick = function(e) {
-            mouseLocation = new g.Point(e.offsetX, e.offsetY);
+            mouseLocation = new g.create.Point(e.offsetX, e.offsetY);
             self.dispatchEvent(new CustomEvent('of-dblclick', {
                 detail: {
                     mouse: mouseLocation,
