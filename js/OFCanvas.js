@@ -204,7 +204,7 @@
         };
 
         var ofclick = function(e) {
-            mouseLocation = new g.create.Point(e.offsetX, e.offsetY);
+            mouseLocation = new g.create.Point((e.offsetX || e.layerX), (e.offsetY || e.layerY));
             self.dispatchEvent(new CustomEvent('of-click', {
                 detail: {
                     mouse: mouseLocation,
@@ -214,7 +214,7 @@
         };
 
         var ofdblclick = function(e) {
-            mouseLocation = new g.create.Point(e.offsetX, e.offsetY);
+            mouseLocation = new g.create.Point((e.offsetX || e.layerX), (e.offsetY || e.layerY));
             self.dispatchEvent(new CustomEvent('of-dblclick', {
                 detail: {
                     mouse: mouseLocation,
@@ -286,7 +286,6 @@
 
         var offocusgained = function(e) {
             focused = true;
-            console.log('focus gained ' + Date.now());
             self.dispatchEvent(new CustomEvent('of-focus-gained', {
                 detail: {
                     e: e
@@ -296,7 +295,6 @@
 
         var offocuslost = function(e) {
             focused = false;
-            console.log('focus lost ' + Date.now());
             self.dispatchEvent(new CustomEvent('of-focus-lost', {
                 detail: {
                     e: e
