@@ -227,6 +227,7 @@
             if (!self.hasFocus()) {
                 return;
             }
+            e.preventDefault();
             var keyChar = e.shiftKey ? charMap[e.keyCode][1] : charMap[e.keyCode][0];
             if (e.repeat) {
                 if (repeatKey === keyChar) {
