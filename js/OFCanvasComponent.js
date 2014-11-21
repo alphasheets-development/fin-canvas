@@ -16,7 +16,7 @@
 
         var g = document.createElement('fin-rectangle');
         var parent = null;
-        var bounds = new g.create.Rectangle(0, 0, 0, 0);
+        var bounds = g.rectangle.create(0, 0, 0, 0);
         var layoutProperties = {
             top: [0, 0],
             right: [1, 0],

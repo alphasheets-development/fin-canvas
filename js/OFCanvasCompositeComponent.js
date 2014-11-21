@@ -49,7 +49,7 @@
         supr.setBounds = this.setBounds;
         this.setBounds = function(rectangle) {
             supr.setBounds(rectangle);
-            var rect = new g.create.Rectangle(0, 0, rectangle.width(), rectangle.height());
+            var rect = g.rectangle.create(0, 0, rectangle.width(), rectangle.height());
             this.getLayoutManager().layoutComponentsIn(rect, components);
         };
 
