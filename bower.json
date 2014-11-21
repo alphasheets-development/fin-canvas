@@ -1,6 +1,6 @@
 {
   "name": "fin-canvas",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "keywords": [
     "seed",
     "polymer",
@@ -9,7 +9,7 @@
   "main": "fin-canvas.html",
   "dependencies": {},
   "devDependencies": {
-    "fin-rectangle": "~0.2.22",
-    "polymer": "~0.5.1"
+    "fin-rectangle": "~0.2",
+    "polymer": "~0.5"
   }
 }
