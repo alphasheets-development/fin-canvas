@@ -1,0 +1,48 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../fin-rectangle/fin-rectangle.html">
+<link rel="import" href="fin-canvas-component.html">
+<polymer-element name="fin-canvas-border-component" attributes="color border-thickness" extends="fin-canvas-component" class="fin-canvas-component">
+  <template></template>
+  <script>
+
+'use strict';
+(function() {
+
+    Polymer('fin-canvas-border-component', { /* jshint ignore:line */
+        paint: function(gc) {
+            try {
+                gc.save();
+                var rect = this.getBounds();
+                var lw = this.getBorderThickness();
+                gc.beginPath();
+                gc.lineWidth = lw;
+                gc.strokeStyle = this.color;
+                gc.rect(lw / 2, lw / 2, rect.width() - lw, rect.height() - lw);
+                gc.stroke();
+            } finally {
+                gc.restore();
+            }
+            var comp = this.getComponent();
+            if (comp) {
+                comp._paint(gc);
+            }
+        },
+        getBorderThickness: function() {
+            return 5;
+        },
+        setBounds: function(rectangle) {
+            this.bounds = rectangle;
+            var lw = this.getBorderThickness();
+            var extent = rectangle.extent;
+            var rect = this.g.rectangle.create(lw, lw, extent.x - 2 * lw, extent.y - 2 * lw);
+            var comp = this.getComponent();
+            if (comp) {
+                comp.setBounds(rect);
+            }
+        },
+    });
+
+})();
+
+  </script>
+</polymer-element>

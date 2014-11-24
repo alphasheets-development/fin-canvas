@@ -1,0 +1,35 @@
+<script src="../polymer/polymer.js"></script>
+
+<link rel="import" href="fin-canvas-component.html">
+<link rel="import" href="fin-canvas.html">
+
+<polymer-element name="fin-canvas-custom-tag">
+  <template>
+    <fin-canvas>
+      <fin-canvas-component id="painter"></fin-canvas-component>
+    </fin-canvas>
+  </template>
+  <script>
+  (function(){
+    Polymer({
+      ready: function() {
+        var painter = this.$.painter;
+        painter.paint = function(gc) {
+            try {
+                gc.save();
+                var rect = this.getBounds();
+                var lw = 5;
+                gc.beginPath();
+                gc.lineWidth = lw;
+                gc.strokeStyle = 'pink';
+                gc.rect(lw / 2, lw / 2, rect.width() - lw, rect.height() - lw);
+                gc.stroke();
+            } finally {
+                gc.restore();
+            }
+        };
+      }
+    });
+  })();
+  </script>
+</polymer-element>

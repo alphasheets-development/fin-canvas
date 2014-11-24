@@ -1,16 +1,48 @@
-<link rel="import" href="../polymer/polymer.html">
+<script src="../polymer/polymer.js"></script>
+
+<link rel="import" href="fin-canvas-component.html">
+<link rel="import" href="fin-canvas-composite-component.html">
+<link rel="import" href="fin-canvas-border-component.html">
 <link rel="import" href="fin-canvas.html">
-<script src="js/OFExampleCustomTag.js"></script>
+
 <polymer-element name="of-example-custom-tag">
   <template>
-      <link rel="stylesheet" href="of-example-custom-tag.css" />
-      <fin-canvas fps="30"></fin-canvas>
+    <fin-canvas touch-action="none">
+
+        <fin-canvas-border-component color="green">
+          <fin-canvas-composite-component>
+            <fin-canvas-border-component color="red" layoutProperties="[0.25,0, 0.50,0, 0.50,0, 0.25,0]">
+
+        <fin-canvas-border-component color="green">
+          <fin-canvas-composite-component>
+            <fin-canvas-border-component color="red" layoutProperties="[0.25,0, 0.50,0, 0.50,0, 0.25,0]"></fin-canvas-border-component>
+            <fin-canvas-border-component color="blue" layoutProperties="[0.5,0, 0.75,0, 0.75,0, 0.5,0]"></fin-canvas-border-component>
+          </fin-canvas-composite-component>
+        </fin-canvas-border-component>
+
+
+          </fin-canvas-border-component>
+            <fin-canvas-border-component color="blue" layoutProperties="[0.5,0, 0.75,0, 0.75,0, 0.5,0]">
+
+
+        <fin-canvas-border-component color="green">
+          <fin-canvas-composite-component>
+            <fin-canvas-border-component color="red" layoutProperties="[0.25,0, 0.50,0, 0.50,0, 0.25,0]"></fin-canvas-border-component>
+            <fin-canvas-border-component color="blue" layoutProperties="[0.5,0, 0.75,0, 0.75,0, 0.5,0]"></fin-canvas-border-component>
+          </fin-canvas-composite-component>
+        </fin-canvas-border-component>
+
+
+          </fin-canvas-border-component>
+          </fin-canvas-composite-component>
+        </fin-canvas-border-component>
+    </fin-canvas>
   </template>
   <script>
-    Polymer('of-example-custom-tag',{
-      ready: function() {
-        fin.wc.canvas.OFExampleCustomTag(this);
-      }
+  (function(){
+    Polymer({
+
     });
+  })();
   </script>
 </polymer-element>
