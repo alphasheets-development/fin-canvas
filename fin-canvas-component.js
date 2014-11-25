@@ -16,7 +16,7 @@
             if (typeof this.layoutProperties === 'string') {
                 this.layoutProperties = JSON.parse(this.layoutProperties);
             }
-        }
+        },
         setBounds: function(rectangle) {
             this.bounds = rectangle;
         },
