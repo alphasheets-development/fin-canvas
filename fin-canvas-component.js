@@ -4,6 +4,9 @@
 
     Polymer('fin-canvas-component', { /* jshint ignore:line */
         ready: function() {
+            this.readyInit();
+        },
+        readyInit: function() {
             this.g = document.createElement('fin-rectangle');
             this.parent = null;
             this.bounds = this.g.rectangle.create(0, 0, 0, 0);
@@ -13,8 +16,7 @@
             if (typeof this.layoutProperties === 'string') {
                 this.layoutProperties = JSON.parse(this.layoutProperties);
             }
-        },
-
+        }
         setBounds: function(rectangle) {
             this.bounds = rectangle;
         },
