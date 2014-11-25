@@ -119,10 +119,6 @@
                 self.ofdblclick(e);
             });
 
-            this.addEventListener('of-focus-gained', function(e) {
-                console.log('focus-gained', e);
-            });
-
             this.mouseLocation = this.g.point.create(-1, -1);
             this.dragstart = this.g.point.create(-1, -1);
             this.origin = this.g.point.create(0, 0);
@@ -236,7 +232,7 @@
             var o = this.getOrigin();
             if (!this.dragging && this.mousedown) {
                 this.dragging = true;
-                this.dispatchEvent(new CustomEvent('of-dragstart', {
+                this.dispatchEvent(new CustomEvent('fin-dragstart', {
                     detail: {
                         mouse: this.mouseLocation,
                         keys: this.currentKeys
@@ -246,7 +242,7 @@
             }
             this.mouseLocation = this.g.point.create((e.x || e.layerX) - o.x, (e.y || e.layerY) - o.y);
             if (this.dragging) {
-                this.dispatchEvent(new CustomEvent('of-drag', {
+                this.dispatchEvent(new CustomEvent('fin-drag', {
                     detail: {
                         mouse: this.mouseLocation,
                         dragstart: this.dragstart,
@@ -255,7 +251,7 @@
                 }));
             }
             if (this.bounds.contains(this.mouseLocation)) {
-                this.dispatchEvent(new CustomEvent('of-mousemove', {
+                this.dispatchEvent(new CustomEvent('fin-mousemove', {
                     detail: {
                         mouse: this.mouseLocation,
                         keys: this.currentKeys
@@ -269,7 +265,7 @@
             this.mouseLocation = this.g.point.create((e.offsetX || e.layerX), (e.offsetY || e.layerY));
             this.mousedown = true;
 
-            this.dispatchEvent(new CustomEvent('of-mousedown', {
+            this.dispatchEvent(new CustomEvent('fin-mousedown', {
                 detail: {
                     mouse: this.g.point.create((e.offsetX || e.layerX), (e.offsetY || e.layerY)),
                     keys: this.currentKeys
@@ -281,7 +277,7 @@
 
         ofmouseup: function() {
             if (this.dragging) {
-                this.dispatchEvent(new CustomEvent('of-dragend', {
+                this.dispatchEvent(new CustomEvent('fin-dragend', {
                     detail: {
                         mouse: this.mouseLocation,
                         dragstart: this.dragstart,
@@ -292,7 +288,7 @@
             }
             this.mousedown = false;
             this.mouseLocation = this.g.point.create(-1, -1);
-            this.dispatchEvent(new CustomEvent('of-mouseup', {
+            this.dispatchEvent(new CustomEvent('fin-mouseup', {
                 detail: {
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
@@ -304,7 +300,7 @@
             if (!this.mousedown) {
                 this.mouseLocation = this.g.point.create(-1, -1);
             }
-            this.dispatchEvent(new CustomEvent('of-mouseout', {
+            this.dispatchEvent(new CustomEvent('fin-mouseout', {
                 detail: {
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
@@ -314,7 +310,7 @@
 
         ofclick: function(e) {
             this.mouseLocation = this.g.point.create((e.offsetX || e.layerX), (e.offsetY || e.layerY));
-            this.dispatchEvent(new CustomEvent('of-click', {
+            this.dispatchEvent(new CustomEvent('fin-click', {
                 detail: {
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
@@ -324,7 +320,7 @@
 
         ofdblclick: function(e) {
             this.mouseLocation = this.g.point.create((e.offsetX || e.layerX), (e.offsetY || e.layerY));
-            this.dispatchEvent(new CustomEvent('of-dblclick', {
+            this.dispatchEvent(new CustomEvent('fin-dblclick', {
                 detail: {
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
@@ -353,7 +349,7 @@
             if (this.currentKeys.indexOf(keyChar) === -1) {
                 this.currentKeys.push(keyChar);
             }
-            this.dispatchEvent(new CustomEvent('of-keydown', {
+            this.dispatchEvent(new CustomEvent('fin-keydown', {
                 detail: {
                     alt: e.altKey,
                     ctrl: e.ctrlKey,
@@ -378,7 +374,7 @@
             this.repeatKey = null;
             this.repeatKeyStartTime = 0;
             this.currentKeys.splice(this.currentKeys.indexOf(keyChar), 1);
-            this.dispatchEvent(new CustomEvent('of-keyup', {
+            this.dispatchEvent(new CustomEvent('fin-keyup', {
                 detail: {
                     alt: e.altKey,
                     ctrl: e.ctrlKey,
@@ -395,7 +391,7 @@
 
         offocusgained: function(e) {
             this.focused = true;
-            this.dispatchEvent(new CustomEvent('of-focus-gained', {
+            this.dispatchEvent(new CustomEvent('fin-focus-gained', {
                 detail: {
                     e: e
                 }
@@ -404,7 +400,7 @@
 
         offocuslost: function(e) {
             this.focused = false;
-            this.dispatchEvent(new CustomEvent('of-focus-lost', {
+            this.dispatchEvent(new CustomEvent('fin-focus-lost', {
                 detail: {
                     e: e
                 }

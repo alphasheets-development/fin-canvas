@@ -7,10 +7,20 @@
   <script src="../webcomponentsjs/webcomponents.js"></script>
 
 <link rel="import" href="of-example-custom-tag.html">
-
+<link rel="import" href="fin-canvas-custom-tag.html">
+<style>
+  .abs {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+</style>
 </head>
 <body unresolved fullbleed>
-  <of-example-custom-tag></of-example-custom-tag>
+  <of-example-custom-tag class="abs" style="bottom:50%"></of-example-custom-tag>
+  <fin-canvas-custom-tag class="abs" style="top:50%"></fin-canvas-custom-tag>
 </body>
 </html>
 

@@ -5,7 +5,7 @@
 
 <polymer-element name="fin-canvas-custom-tag">
   <template>
-    <fin-canvas>
+    <fin-canvas id="canvas">
       <fin-canvas-component id="painter"></fin-canvas-component>
     </fin-canvas>
   </template>
@@ -13,7 +13,11 @@
   (function(){
     Polymer({
       ready: function() {
+        var canvas = this.$.canvas;
         var painter = this.$.painter;
+        canvas.addEventListener('fin-click', function(e) {
+          console.log('click ', e);
+        });
         painter.paint = function(gc) {
             try {
                 gc.save();
