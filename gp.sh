@@ -51,6 +51,7 @@ cp -rf ../../URL ./components/URL
 cp -rf ../../observe-js ./components/observe-js
 cp -rf ../../polymer-expressions ./components/polymer-expressions
 cp -rf ../../polymer-gestures ./components/polymer-gestures
+cp -rf ../../fin-rectangle ./components/fin-rectangle
 
 # redirect by default to the component folder
 echo "<META http-equiv="refresh" content=\"0;URL=components/$repo/\">" >index.html
