@@ -3,6 +3,12 @@
 
 (function() {
 
+    /**
+     * charMap is a private property that maps keys strokes to key chars,
+     *
+     * @property charMap
+     * @type Array
+     */
     var charMap = [];
     var empty = ['', ''];
     for (var i = 0; i < 256; i++) {
@@ -75,6 +81,173 @@
     charMap[39] = ['RIGHT', 'RIGHTSHIFT'];
 
     Polymer('fin-canvas', { /* jshint ignore:line */
+        /**                                                             .
+         * g is the [fin-rectangle](http://stevewirts.github.io/fin-rectangle/components/fin-rectangle/) factory for creating instances of rectangle and point
+         *
+         * @property g
+         * @type fin-rectangle polymer-element
+         */
+        g: null,
+
+        /**                                                             .
+         * canvas is the actual rendering surface that bit-blit to from the buffer
+         *
+         * @property canvas
+         * @type HTMLCanvasElement
+         */
+        canvas: null,
+
+        /**                                                             .
+         * cavasCTX is the cached graphics context from canvas we bit blit to
+         *
+         * @property cavasCTX
+         * @type 2DRenderingContext
+         */
+        cavasCTX: null,
+
+        /**                                                             .
+         * focuser is a button element that is used to simulate proper focus semantics
+         *
+         * @property focuser
+         * @type HTMLButtonElement
+         */
+        focuser: null,
+
+        /**                                                             .
+         * buffer is the offscreen canvas component we draw to that will eventually be bit blit to canvas
+         *
+         * @property buffer
+         * @type HTMLCanvasElement
+         */
+        buffer: null,
+
+        /**                                                             .
+         * ctx is the offscreen cached graphics context from buffer that we draw to
+         *
+         * @property ctx
+         * @type 2DRenderingContext
+         */
+        ctx: null,
+
+        /**                                                             .
+         * fps is how many times a second we check the repaint flag for redrawing
+         *
+         * @property fps
+         * @type Number
+         */
+        fps: null,
+
+        /**                                                             .
+         * mouseLocation is the current position of the mouse pointer
+         *
+         * @property mouseLocation
+         * @type point
+         */
+        mouseLocation: null,
+
+        /**                                                             .
+         * dragstart is the origin of a drag region for the selection
+         *
+         * @property dragstart
+         * @type point
+         */
+        dragstart: null,
+
+        /**                                                             .
+         * origin location of the top right corner of the grid according to [getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect)
+         *
+         * @property origin
+         * @type point
+         */
+        origin: null,
+
+        /**                                                             .
+         * bounds is a private property that maps keys strokes to key chars,
+         *
+         * @property bounds
+         * @type Array
+         */
+        bounds: null,
+
+        /**                                                             .
+         * repaintNow is a private property that maps keys strokes to key chars,
+         *
+         * @property repaintNow
+         * @type Array
+         */
+        repaintNow: false,
+
+        /**                                                             .
+         * size is a private property that maps keys strokes to key chars,
+         *
+         * @property size
+         * @type Array
+         */
+        size: null,
+
+        /**                                                             .
+         * mousedown is a private property that maps keys strokes to key chars,
+         *
+         * @property mousedown
+         * @type Array
+         */
+        mousedown: false,
+
+        /**                                                             .
+         * dragging is true if we are currently dragging
+         *
+         * @property dragging
+         * @type boolean
+         */
+        dragging: false,
+
+        /**                                                             .
+         * focused is true if we currently have input focus
+         *
+         * @property focused
+         * @type boolean
+         */
+        focused: false,
+
+        /**                                                             .
+         * repeatKeyCount is how many times we've recieved a key down event from the user holding a key down
+         *
+         * @property repeatKeyCount
+         * @type Number
+         */
+        repeatKeyCount: 0,
+
+        /**                                                             .
+         * repeatKey is the key that is currently being held down
+         *
+         * @property repeatKey
+         * @type char
+         */
+        repeatKey: null,
+
+        /**                                                             .
+         * repeatKeyStartTime is the start time in milliseconds of the initial keydown event of a key that is being held down
+         *
+         * @property repeatKeyStartTime
+         * @type Number
+         */
+        repeatKeyStartTime: 0,
+
+        /**                                                             .
+         * currentKeys is an array of the all the keys that are currently being pressed
+         *
+         * @property currentKeys
+         * @type Array
+         */
+        currentKeys: [],
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * a polymer lifecycle callback to initialize the canvas
+         *
+         * @method ready()
+         */
         ready: function() {
 
             this.g = document.createElement('fin-rectangle');
@@ -88,63 +261,65 @@
 
             this.fps = this.getAttribute('fps') || 60;
 
-            document.addEventListener('mousemove', function(e) {
-                self.ofmousemove(e);
-            });
-            document.addEventListener('mouseup', function(e) {
-                self.ofmouseup(e);
-            });
-            this.focuser.addEventListener('focus', function(e) {
-                self.offocusgained(e);
-            });
-            this.focuser.addEventListener('blur', function(e) {
-                self.offocuslost(e);
-            });
-            this.addEventListener('mousedown', function(e) {
-                self.ofmousedown(e);
-            });
-            this.addEventListener('mouseout', function(e) {
-                self.ofmouseout(e);
-            });
-            document.addEventListener('keydown', function(e) {
-                self.ofkeydown(e);
-            });
-            document.addEventListener('keyup', function(e) {
-                self.ofkeyup(e);
-            });
-            this.addEventListener('click', function(e) {
-                self.ofclick(e);
-            });
-            this.addEventListener('dblclick', function(e) {
-                self.ofdblclick(e);
-            });
-
             this.mouseLocation = this.g.point.create(-1, -1);
             this.dragstart = this.g.point.create(-1, -1);
             this.origin = this.g.point.create(0, 0);
             this.bounds = this.g.rectangle.create(0, 0, 0, 0);
 
+            document.addEventListener('mousemove', function(e) {
+                self.finmousemove(e);
+            });
+            document.addEventListener('mouseup', function(e) {
+                self.finmouseup(e);
+            });
+            this.focuser.addEventListener('focus', function(e) {
+                self.finfocusgained(e);
+            });
+            this.focuser.addEventListener('blur', function(e) {
+                self.finfocuslost(e);
+            });
+            this.addEventListener('mousedown', function(e) {
+                self.finmousedown(e);
+            });
+            this.addEventListener('mouseout', function(e) {
+                self.finmouseout(e);
+            });
+            document.addEventListener('keydown', function(e) {
+                self.finkeydown(e);
+            });
+            document.addEventListener('keyup', function(e) {
+                self.finkeyup(e);
+            });
+            this.addEventListener('click', function(e) {
+                self.finclick(e);
+            });
+            this.addEventListener('dblclick', function(e) {
+                self.findblclick(e);
+            });
+
             this.resize();
             this.beginPainting();
         },
 
-
-        repaintNow: false,
-        size: null,
-
-        mousedown: false,
-        dragging: false,
-        focused: false,
-        repeatKeyCount: 0,
-        repeatKey: null,
-        repeatKeyStartTime: 0,
-        currentKeys: [],
-
+        /**
+         *                                                                      .
+         *                                                                      .
+         * return my one child fin-canvas-component
+         *
+         * @method getComponent()
+         */
         getComponent: function() {
             var comp = this.children[0];
             return comp;
         },
 
+        /**
+         *                                                                      .
+         *                                                                      .
+         * start the paint loop at this.fps rate
+         *
+         * @method beginPainting()
+         */
         beginPainting: function() {
             var self = this;
             self.repaintNow = true;
@@ -162,6 +337,13 @@
             requestAnimationFrame(animate);
         },
 
+        /**
+         *                                                                      .
+         *                                                                      .
+         * check to see if my size has changed, if so notify myself
+         *
+         * @method checksize()
+         */
         checksize: function() {
             var sizeNow = this.getBoundingClientRect();
             if (sizeNow.width !== this.size.width || sizeNow.height !== this.size.height) {
@@ -169,10 +351,24 @@
             }
         },
 
+        /**
+         *                                                                      .
+         *                                                                      .
+         * my size has changed, lets resize
+         *
+         * @method sizeChangedNotification()
+         */
         sizeChangedNotification: function() {
             this.resize();
         },
 
+        /**
+         *                                                                      .
+         *                                                                      .
+         * because HTMLCanvasElement doesn't obey normal HTML5 resize semantics, we need to update canvas and buffer sizes when our size changes
+         *
+         * @method resize()
+         */
         resize: function() {
             this.size = this.getBoundingClientRect();
 
@@ -194,14 +390,35 @@
             //});
         },
 
+        /**
+         *                                                                      .
+         *                                                                      .
+         * my size has changed, lets resize
+         *
+         * @method sizeChangedNotification()
+         */
         resizeNotification: function() {
             //to be overridden
         },
 
+        /**
+         *                                                                      .
+         *                                                                      .
+         * my bounds with origin 0,0 and width and height set according to [getBoundingClientRect](https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect)
+         *
+         * @method getBounds()
+         */
         getBounds: function() {
             return this.bounds;
         },
 
+        /**
+         *                                                                      .
+         *                                                                      .
+         * force a safe paint right now and then flush the buffer to the screen
+         *
+         * @method paintNow()
+         */
         paintNow: function() {
             var gc = this.ctx;
             try {
@@ -215,12 +432,26 @@
             this.repaintNow = false;
         },
 
+        /**
+         *                                                                      .
+         *                                                                      .
+         * render the buffered drawing to the screen
+         *
+         * @method flushBuffer()
+         */
         flushBuffer: function() {
             if (this.buffer.width > 0 && this.buffer.height > 0) {
                 this.canvasCTX.drawImage(this.buffer, 0, 0);
             }
         },
 
+        /**
+         *                                                                      .
+         *                                                                      .
+         * this is the entry point to the view-heirarchy sub-structure painting, passing in the graphics context gc
+         *
+         * @method paint(gc)
+         */
         paint: function(gc) {
             var comp = this.getComponent();
             if (comp) {
@@ -228,7 +459,14 @@
             }
         },
 
-        ofmousemove: function(e) {
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the mouse move event
+         *
+         * @method finmousemove(e)
+         */
+        finmousemove: function(e) {
             var o = this.getOrigin();
             if (!this.dragging && this.mousedown) {
                 this.dragging = true;
@@ -260,7 +498,14 @@
             }
         },
 
-        ofmousedown: function(e) {
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the mouse down event
+         *
+         * @method finmousedown(e)
+         */
+        finmousedown: function(e) {
 
             this.mouseLocation = this.g.point.create((e.offsetX || e.layerX), (e.offsetY || e.layerY));
             this.mousedown = true;
@@ -275,7 +520,14 @@
 
         },
 
-        ofmouseup: function() {
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the mouse up event
+         *
+         * @method finmouseup(e)
+         */
+        finmouseup: function() {
             if (this.dragging) {
                 this.dispatchEvent(new CustomEvent('fin-dragend', {
                     detail: {
@@ -296,7 +548,14 @@
             }));
         },
 
-        ofmouseout: function() {
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the mouse out event
+         *
+         * @method finmouseout(e)
+         */
+        finmouseout: function() {
             if (!this.mousedown) {
                 this.mouseLocation = this.g.point.create(-1, -1);
             }
@@ -308,7 +567,14 @@
             }));
         },
 
-        ofclick: function(e) {
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the mouse click event
+         *
+         * @method finclick(e)
+         */
+        finclick: function(e) {
             this.mouseLocation = this.g.point.create((e.offsetX || e.layerX), (e.offsetY || e.layerY));
             this.dispatchEvent(new CustomEvent('fin-click', {
                 detail: {
@@ -318,7 +584,14 @@
             }));
         },
 
-        ofdblclick: function(e) {
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the mouse double click event
+         *
+         * @method findblclick(e)
+         */
+        findblclick: function(e) {
             this.mouseLocation = this.g.point.create((e.offsetX || e.layerX), (e.offsetY || e.layerY));
             this.dispatchEvent(new CustomEvent('fin-dblclick', {
                 detail: {
@@ -328,7 +601,14 @@
             }));
         },
 
-        ofkeydown: function(e) {
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the keydown event
+         *
+         * @method finkeydown(e)
+         */
+        finkeydown: function(e) {
             if (!this.hasFocus()) {
                 return;
             }
@@ -365,7 +645,14 @@
             }));
         },
 
-        ofkeyup: function(e) {
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the keyup event
+         *
+         * @method finkeyup(e)
+         */
+        finkeyup: function(e) {
             if (!this.hasFocus()) {
                 return;
             }
@@ -389,7 +676,14 @@
             }));
         },
 
-        offocusgained: function(e) {
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the focusgained event
+         *
+         * @method finfocusgained(e)
+         */
+        finfocusgained: function(e) {
             this.focused = true;
             this.dispatchEvent(new CustomEvent('fin-focus-gained', {
                 detail: {
@@ -398,7 +692,14 @@
             }));
         },
 
-        offocuslost: function(e) {
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the focuslost event
+         *
+         * @method finfocuslost(e)
+         */
+        finfocuslost: function(e) {
             this.focused = false;
             this.dispatchEvent(new CustomEvent('fin-focus-lost', {
                 detail: {
@@ -407,22 +708,57 @@
             }));
         },
 
+        /**
+         *                                                                      .
+         *                                                                      .
+         * tickle the repaint flag to on
+         *
+         * @method repaint()
+         */
         repaint: function() {
             this.repaintNow = true;
         },
 
+        /**
+         *                                                                      .
+         *                                                                      .
+         * getter accessor for the mouseLocation field
+         *
+         * @method getMouseLocation()
+         */
         getMouseLocation: function() {
             return this.mouseLocation;
         },
 
+        /**
+         *                                                                      .
+         *                                                                      .
+         * getter accessor for the origin field
+         *
+         * @method getOrigin()
+         */
         getOrigin: function() {
             return this.origin;
         },
 
+        /**
+         *                                                                      .
+         *                                                                      .
+         * answer if I have focus
+         *
+         * @method hasFocus()
+         */
         hasFocus: function() {
             return this.focused;
         },
 
+        /**
+         *                                                                      .
+         *                                                                      .
+         * try to take global input focus
+         *
+         * @method takeFocus()
+         */
         takeFocus: function() {
             var self = this;
             if (document.activeElement !== this.focuser) {
