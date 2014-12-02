@@ -1,8 +1,16 @@
+<!--
+
+The `fin-canvas-component-composite` element is a custom web component canvas control and includes a small ui framework for building custom components that render on the canvas.  This element exists as generalization on canvas to support the openfin [fin-hypergrid](http://github.com/openfin/fin-hypergrid) component.
+
+@group OpenFin hypergrid
+@element fin-canvas-component-composite
+@homepage http://github.com/stevewirts/fin-canvas
+-->
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../fin-rectangle/fin-rectangle.html">
 <link rel="import" href="fin-canvas-component.html">
 <link rel="import" href="fin-canvas-layout-fractional.html">
-<polymer-element name="fin-canvas-composite-component" class="fin-canvas-component" extends="fin-canvas-component">
+<polymer-element name="fin-canvas-component-composite" class="fin-canvas-component" extends="fin-canvas-component">
 <template>
   </template>
   <script>
@@ -11,7 +19,7 @@
 
 (function() {
 
-    Polymer('fin-canvas-composite-component', { /* jshint ignore:line */
+    Polymer('fin-canvas-component-composite', { /* jshint ignore:line */
         created: function() {
             this.g = document.createElement('fin-rectangle');
             this.layoutManager = document.createElement('fin-canvas-layout-fractional');
