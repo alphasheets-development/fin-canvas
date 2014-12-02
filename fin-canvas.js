@@ -241,6 +241,17 @@
          */
         currentKeys: [],
 
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * the number of times per second we check the repaint flag to execute a repaint
+         *
+         * @attribute fps
+         * @default 60
+         * @type Number
+         */
+
         /**
          *                                                                      .
          *                                                                      .
@@ -466,6 +477,7 @@
          *
          * @method finmousemove(e)
          */
+
         finmousemove: function(e) {
             var o = this.getOrigin();
             if (!this.dragging && this.mousedown) {
