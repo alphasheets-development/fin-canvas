@@ -624,7 +624,7 @@
             if (!this.hasFocus()) {
                 return;
             }
-            e.preventDefault();
+            //e.preventDefault();
             var keyChar = e.shiftKey ? charMap[e.keyCode][1] : charMap[e.keyCode][0];
             if (e.repeat) {
                 if (this.repeatKey === keyChar) {
