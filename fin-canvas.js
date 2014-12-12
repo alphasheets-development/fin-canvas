@@ -490,7 +490,7 @@
                 }));
                 this.dragstart = this.g.point.create(this.mouseLocation.x, this.mouseLocation.y);
             }
-            this.mouseLocation = this.g.point.create((e.x || e.layerX) - o.x, (e.y || e.layerY) - o.y);
+            this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
             if (this.dragging) {
                 this.dispatchEvent(new CustomEvent('fin-drag', {
                     detail: {
@@ -519,12 +519,13 @@
          */
         finmousedown: function(e) {
 
-            this.mouseLocation = this.g.point.create((e.offsetX || e.layerX), (e.offsetY || e.layerY));
+            var o = this.getOrigin();
+            this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
             this.mousedown = true;
 
             this.dispatchEvent(new CustomEvent('fin-mousedown', {
                 detail: {
-                    mouse: this.g.point.create((e.offsetX || e.layerX), (e.offsetY || e.layerY)),
+                    mouse: this.mouseLocation,
                     keys: this.currentKeys
                 }
             }));
