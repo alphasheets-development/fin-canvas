@@ -146,6 +146,14 @@
         mouseLocation: null,
 
         /**                                                             .
+         * holdPulseCount is the number of times we've been holdpulsed at the same location for this event
+         *
+         * @property holdPulseCount
+         * @type point
+         */
+        holdPulseCount: -1,
+
+        /**                                                             .
          * dragstart is the origin of a drag region for the selection
          *
          * @property dragstart
@@ -389,7 +397,7 @@
             this.canvas.height = this.clientHeight;
             this.buffer.height = this.clientHeight;
 
-            this.origin = this.g.point.create(this.size.left, this.size.top);
+            this.origin = this.g.point.create(Math.round(this.size.left), Math.round(this.size.top));
             this.bounds = this.g.rectangle.create(0, 0, this.size.width, this.size.height);
             //setTimeout(function() {
             var comp = this.getComponent();
@@ -593,6 +601,151 @@
                 detail: {
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
+                }
+            }));
+        },
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the release event
+         *
+         * @method finrelease(e)
+         */
+        finrelease: function(e) {
+            this.holdPulseCount = 0;
+            var o = this.getOrigin();
+            this.mouseLocation = this.g.point.create(e.x - o.x, e.y - o.y);
+            this.dispatchEvent(new CustomEvent('fin-release', {
+                detail: {
+                    mouse: this.mouseLocation,
+                    keys: this.currentKeys
+                }
+            }));
+        },
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the flick event
+         *
+         * @method finflick(e)
+         */
+        finflick: function(e) {
+            var o = this.getOrigin();
+            this.mouseLocation = this.g.point.create(e.x - o.x, e.y - o.y);
+            this.dispatchEvent(new CustomEvent('fin-flick', {
+                detail: {
+                    mouse: this.mouseLocation,
+                    keys: this.currentKeys
+                }
+            }));
+        },
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the tap event
+         *
+         * @method fintap(e)
+         */
+        fintap: function(e) {
+            var o = this.getOrigin();
+            this.mouseLocation = this.g.point.create(e.x - o.x, e.y - o.y);
+            this.dispatchEvent(new CustomEvent('fin-tap', {
+                detail: {
+                    mouse: this.mouseLocation,
+                    keys: this.currentKeys
+                }
+            }));
+        },
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the trackstart event
+         *
+         * @method fintap(e)
+         */
+        fintrackstart: function(e) {
+            var o = this.getOrigin();
+            this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
+            this.dispatchEvent(new CustomEvent('fin-trackstart', {
+                detail: {
+                    mouse: this.mouseLocation,
+                    keys: this.currentKeys
+                }
+            }));
+        },
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the track event
+         *
+         * @method fintrack(e)
+         */
+        fintrack: function(e) {
+            var o = this.getOrigin();
+            this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
+            this.dispatchEvent(new CustomEvent('fin-track', {
+                detail: {
+                    mouse: this.mouseLocation,
+                    keys: this.currentKeys
+                }
+            }));
+        },
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the trackend event
+         *
+         * @method fintrackend(e)
+         */
+        fintrackend: function(e) {
+            var o = this.getOrigin();
+            this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
+            this.dispatchEvent(new CustomEvent('fin-trackend', {
+                detail: {
+                    mouse: this.mouseLocation,
+                    keys: this.currentKeys
+                }
+            }));
+        },
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the hold event
+         *
+         * @method finhold(e)
+         */
+        finhold: function(e) {
+            var o = this.getOrigin();
+            this.mouseLocation = this.g.point.create(e.x - o.x, e.y - o.y);
+            this.dispatchEvent(new CustomEvent('fin-hold', {
+                detail: {
+                    mouse: this.mouseLocation,
+                    keys: this.currentKeys
+                }
+            }));
+        },
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the holdpulse event
+         *
+         * @method finholdpulse(e)
+         */
+        finholdpulse: function(e) {
+            var o = this.getOrigin();
+            this.mouseLocation = this.g.point.create(e.x - o.x, e.y - o.y);
+            this.dispatchEvent(new CustomEvent('fin-holdpulse', {
+                detail: {
+                    mouse: this.mouseLocation,
+                    keys: this.currentKeys,
+                    count: this.holdPulseCount++
                 }
             }));
         },

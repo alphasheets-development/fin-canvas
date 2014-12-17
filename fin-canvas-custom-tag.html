@@ -23,9 +23,36 @@ The `fin-canvas-custom-tag` element is a custom web component canvas control and
       ready: function() {
         var canvas = this.$.canvas;
         var painter = this.$.painter;
-        canvas.addEventListener('fin-click', function(e) {
-          console.log('click ', e);
+        // canvas.addEventListener('fin-click', function(e) {
+        //   console.log('click ', e);
+        // });
+        // canvas.addEventListener('fin-dblclick', function(e) {
+        //   console.log('dblclick ', e);
+        // });
+        // canvas.addEventListener('fin-tap', function(e) {
+        //   console.log('tap ', e);
+        // });
+        // canvas.addEventListener('fin-hold', function(e) {
+        //   console.log('hold ', e);
+        // });
+        // canvas.addEventListener('fin-holdpulse', function(e) {
+        //   console.log('holdpulse count: ' + e.detail.count,e);
+        // });
+        // canvas.addEventListener('fin-release', function(e) {
+        //   console.log('release ', e);
+        // });
+        canvas.addEventListener('fin-flick', function(e) {
+          console.log('flick ', e);
         });
+        // canvas.addEventListener('fin-trackstart', function(e) {
+        //   console.log('trackstart ' +  e.detail.mouse.x + ', ' + e.detail.mouse.y,e);
+        // });
+        // canvas.addEventListener('fin-track', function(e) {
+        //   console.log('track ' +  e.detail.mouse.x + ', ' + e.detail.mouse.y,e);
+        // });
+        // canvas.addEventListener('fin-trackend', function(e) {
+        //   console.log('trackend ' +  e.detail.mouse.x + ', ' + e.detail.mouse.y,e);
+        // });
         painter.paint = function(gc) {
             try {
                 gc.save();
