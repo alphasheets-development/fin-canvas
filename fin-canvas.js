@@ -488,8 +488,8 @@
 
         finmousemove: function(e) {
             var o = this.getOrigin();
-            if (!this.dragging && this.mousedown) {
-                this.dragging = true;
+            if (!this.isDragging() && this.mousedown) {
+                this.beDragging();
                 this.dispatchEvent(new CustomEvent('fin-dragstart', {
                     detail: {
                         mouse: this.mouseLocation,
@@ -499,7 +499,7 @@
                 this.dragstart = this.g.point.create(this.mouseLocation.x, this.mouseLocation.y);
             }
             this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
-            if (this.dragging) {
+            if (this.isDragging()) {
                 this.dispatchEvent(new CustomEvent('fin-drag', {
                     detail: {
                         mouse: this.mouseLocation,
@@ -549,7 +549,7 @@
          * @method finmouseup(e)
          */
         finmouseup: function() {
-            if (this.dragging) {
+            if (this.isDragging()) {
                 this.dispatchEvent(new CustomEvent('fin-dragend', {
                     detail: {
                         mouse: this.mouseLocation,
@@ -557,7 +557,7 @@
                         keys: this.currentKeys
                     }
                 }));
-                this.dragging = false;
+                this.beNotDragging();
             }
             this.mousedown = false;
             this.mouseLocation = this.g.point.create(-1, -1);
@@ -932,6 +932,30 @@
                     self.focuser.focus();
                 }, 10);
             }
+        },
+
+        beDragging: function() {
+            this.dragging = true;
+            this.disableDocumentElementSelection();
+        },
+
+        beNotDragging: function() {
+            this.dragging = false;
+            this.enableDocumentElementSelection();
+        },
+
+        isDragging: function() {
+            return this.dragging;
+        },
+
+        disableDocumentElementSelection: function() {
+            var style = document.body.style;
+            style.cssText = style.cssText + '-webkit-user-select: none';
+        },
+
+        enableDocumentElementSelection: function() {
+            var style = document.body.style;
+            style.cssText = style.cssText.replace('-webkit-user-select: none', '');
         }
 
     });
