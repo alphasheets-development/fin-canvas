@@ -673,7 +673,8 @@
             this.dispatchEvent(new CustomEvent('fin-trackstart', {
                 detail: {
                     mouse: this.mouseLocation,
-                    keys: this.currentKeys
+                    keys: this.currentKeys,
+                    primitiveEvent: e
                 }
             }));
         },
@@ -691,7 +692,8 @@
             this.dispatchEvent(new CustomEvent('fin-track', {
                 detail: {
                     mouse: this.mouseLocation,
-                    keys: this.currentKeys
+                    keys: this.currentKeys,
+                    primitiveEvent: e
                 }
             }));
         },
@@ -709,7 +711,8 @@
             this.dispatchEvent(new CustomEvent('fin-trackend', {
                 detail: {
                     mouse: this.mouseLocation,
-                    keys: this.currentKeys
+                    keys: this.currentKeys,
+                    primitiveEvent: e
                 }
             }));
         },
