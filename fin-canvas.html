@@ -558,6 +558,9 @@ The `fin-canvas` element is a custom web component canvas control and includes a
          */
 
         finmousemove: function(e) {
+            if (!this.hasFocus()) {
+                return;
+            }
             var o = this.getOrigin();
             if (!this.isDragging() && this.mousedown) {
                 this.beDragging();
@@ -703,6 +706,9 @@ The `fin-canvas` element is a custom web component canvas control and includes a
          * @method finflick(e)
          */
         finflick: function(e) {
+            if (!this.hasFocus()) {
+                return;
+            }
             var o = this.getOrigin();
             this.mouseLocation = this.g.point.create(e.x - o.x, e.y - o.y);
             this.dispatchEvent(new CustomEvent('fin-flick', {
@@ -739,6 +745,9 @@ The `fin-canvas` element is a custom web component canvas control and includes a
          * @method fintap(e)
          */
         fintrackstart: function(e) {
+            if (!this.hasFocus()) {
+                return;
+            }
             var o = this.getOrigin();
             this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
             this.dispatchEvent(new CustomEvent('fin-trackstart', {
@@ -758,6 +767,9 @@ The `fin-canvas` element is a custom web component canvas control and includes a
          * @method fintrack(e)
          */
         fintrack: function(e) {
+            if (!this.hasFocus()) {
+                return;
+            }
             var o = this.getOrigin();
             this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
             this.dispatchEvent(new CustomEvent('fin-track', {

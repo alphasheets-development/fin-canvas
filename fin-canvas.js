@@ -487,6 +487,9 @@
          */
 
         finmousemove: function(e) {
+            if (!this.hasFocus()) {
+                return;
+            }
             var o = this.getOrigin();
             if (!this.isDragging() && this.mousedown) {
                 this.beDragging();
@@ -632,6 +635,9 @@
          * @method finflick(e)
          */
         finflick: function(e) {
+            if (!this.hasFocus()) {
+                return;
+            }
             var o = this.getOrigin();
             this.mouseLocation = this.g.point.create(e.x - o.x, e.y - o.y);
             this.dispatchEvent(new CustomEvent('fin-flick', {
@@ -668,6 +674,9 @@
          * @method fintap(e)
          */
         fintrackstart: function(e) {
+            if (!this.hasFocus()) {
+                return;
+            }
             var o = this.getOrigin();
             this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
             this.dispatchEvent(new CustomEvent('fin-trackstart', {
@@ -687,6 +696,9 @@
          * @method fintrack(e)
          */
         fintrack: function(e) {
+            if (!this.hasFocus()) {
+                return;
+            }
             var o = this.getOrigin();
             this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
             this.dispatchEvent(new CustomEvent('fin-track', {
