@@ -269,8 +269,8 @@
          */
         ready: function() {
 
-            this.g = document.createElement('fin-rectangle');
             var self = this;
+            this.g = document.createElement('fin-rectangle');
             this.canvas = this.shadowRoot.querySelector('.canvas');
             this.focuser = this.shadowRoot.querySelector('button');
             this.canvasCTX = this.canvas.getContext('2d');
@@ -290,7 +290,7 @@
                 self.hasMouse = true;
             };
             document.addEventListener('mousemove', function(e) {
-                if (!this.hasMouse) {
+                if (!self.hasMouse) {
                     return;
                 }
                 self.finmousemove(e);

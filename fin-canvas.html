@@ -340,8 +340,8 @@ The `fin-canvas` element is a custom web component canvas control and includes a
          */
         ready: function() {
 
-            this.g = document.createElement('fin-rectangle');
             var self = this;
+            this.g = document.createElement('fin-rectangle');
             this.canvas = this.shadowRoot.querySelector('.canvas');
             this.focuser = this.shadowRoot.querySelector('button');
             this.canvasCTX = this.canvas.getContext('2d');
@@ -361,7 +361,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
                 self.hasMouse = true;
             };
             document.addEventListener('mousemove', function(e) {
-                if (!this.hasMouse) {
+                if (!self.hasMouse) {
                     return;
                 }
                 self.finmousemove(e);
