@@ -249,16 +249,16 @@
          */
         currentKeys: [],
 
-
         /**
          *                                                                      .
          *                                                                      .
-         * the number of times per second we check the repaint flag to execute a repaint
+         * is true if the mouse is currently hovering over me
          *
-         * @attribute fps
-         * @default 60
-         * @type Number
+         * @attribute hasMouse
+         * @default false
+         * @type boolean
          */
+        hasMouse: false,
 
         /**
          *                                                                      .
@@ -284,8 +284,15 @@
             this.dragstart = this.g.point.create(-1, -1);
             this.origin = this.g.point.create(0, 0);
             this.bounds = this.g.rectangle.create(0, 0, 0, 0);
+            this.hasMouse = false;
 
+            this.onmouseover = function() {
+                self.hasMouse = true;
+            };
             document.addEventListener('mousemove', function(e) {
+                if (!this.hasMouse) {
+                    return;
+                }
                 self.finmousemove(e);
             });
             document.addEventListener('mouseup', function(e) {
@@ -301,6 +308,7 @@
                 self.finmousedown(e);
             });
             this.addEventListener('mouseout', function(e) {
+                self.hasMouse = false;
                 self.finmouseout(e);
             });
             document.addEventListener('keydown', function(e) {
@@ -487,9 +495,6 @@
          */
 
         finmousemove: function(e) {
-            if (!this.hasFocus()) {
-                return;
-            }
             var o = this.getOrigin();
             if (!this.isDragging() && this.mousedown) {
                 this.beDragging();
