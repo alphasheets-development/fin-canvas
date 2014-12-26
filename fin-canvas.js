@@ -290,7 +290,7 @@
                 self.hasMouse = true;
             };
             document.addEventListener('mousemove', function(e) {
-                if (!self.hasMouse) {
+                if (!self.hasMouse && !self.isDragging()) {
                     return;
                 }
                 self.finmousemove(e);
