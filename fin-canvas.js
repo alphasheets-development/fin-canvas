@@ -865,14 +865,14 @@
          * @method finkeyup(e)
          */
         finkeyup: function(e) {
+            var keyChar = e.shiftKey ? charMap[e.keyCode][1] : charMap[e.keyCode][0];
+            this.currentKeys.splice(this.currentKeys.indexOf(keyChar), 1);
             if (!this.hasFocus()) {
                 return;
             }
-            var keyChar = e.shiftKey ? charMap[e.keyCode][1] : charMap[e.keyCode][0];
             this.repeatKeyCount = 0;
             this.repeatKey = null;
             this.repeatKeyStartTime = 0;
-            this.currentKeys.splice(this.currentKeys.indexOf(keyChar), 1);
             this.dispatchEvent(new CustomEvent('fin-keyup', {
                 detail: {
                     alt: e.altKey,
