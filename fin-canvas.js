@@ -298,6 +298,10 @@
             document.addEventListener('mouseup', function(e) {
                 self.finmouseup(e);
             });
+            document.addEventListener('wheel', function(e) {
+                self.finwheelmoved(e);
+            });
+
             this.focuser.addEventListener('focus', function(e) {
                 self.finfocusgained(e);
             });
@@ -326,6 +330,7 @@
 
             this.resize();
             this.beginPainting();
+
         },
 
         /**
@@ -592,6 +597,27 @@
                 detail: {
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
+                }
+            }));
+        },
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the wheelmoved event
+         *
+         * @method finwheelmoved(e)
+         */
+        finwheelmoved: function(e) {
+            if (this.isDragging() || !this.hasFocus()) {
+                return;
+            }
+            e.preventDefault();
+            this.dispatchEvent(new CustomEvent('fin-wheelmoved', {
+                detail: {
+                    mouse: this.mouseLocation,
+                    keys: this.currentKeys,
+                    primitiveEvent: e
                 }
             }));
         },

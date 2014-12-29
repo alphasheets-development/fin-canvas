@@ -369,6 +369,10 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             document.addEventListener('mouseup', function(e) {
                 self.finmouseup(e);
             });
+            document.addEventListener('wheel', function(e) {
+                self.finwheelmoved(e);
+            });
+
             this.focuser.addEventListener('focus', function(e) {
                 self.finfocusgained(e);
             });
@@ -397,6 +401,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
 
             this.resize();
             this.beginPainting();
+
         },
 
         /**
@@ -663,6 +668,27 @@ The `fin-canvas` element is a custom web component canvas control and includes a
                 detail: {
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
+                }
+            }));
+        },
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the wheelmoved event
+         *
+         * @method finwheelmoved(e)
+         */
+        finwheelmoved: function(e) {
+            if (this.isDragging() || !this.hasFocus()) {
+                return;
+            }
+            e.preventDefault();
+            this.dispatchEvent(new CustomEvent('fin-wheelmoved', {
+                detail: {
+                    mouse: this.mouseLocation,
+                    keys: this.currentKeys,
+                    primitiveEvent: e
                 }
             }));
         },
