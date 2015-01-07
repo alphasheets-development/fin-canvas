@@ -276,7 +276,7 @@
             this.canvasCTX = this.canvas.getContext('2d');
 
             this.buffer = document.createElement('canvas');
-            this.ctx = this.buffer.getContext('2d');
+            this.bufferCTX = this.buffer.getContext('2d');
 
             this.fps = this.getAttribute('fps') || 60;
 
@@ -405,10 +405,38 @@
             this.size = this.getBoundingClientRect();
 
             this.canvas.width = this.clientWidth;
-            this.buffer.width = this.clientWidth;
-
             this.canvas.height = this.clientHeight;
+
+            this.buffer.width = this.clientWidth;
             this.buffer.height = this.clientHeight;
+
+            //fix ala sir spinka
+            if (window.devicePixelRatio && true) {
+                var devicePixelRatio = window.devicePixelRatio || 1;
+                var backingStoreRatio = this.canvasCTX.webkitBackingStorePixelRatio ||
+                    this.canvasCTX.mozBackingStorePixelRatio ||
+                    this.canvasCTX.msBackingStorePixelRatio ||
+                    this.canvasCTX.oBackingStorePixelRatio ||
+                    this.canvasCTX.backingStorePixelRatio || 1;
+
+                var ratio = devicePixelRatio / backingStoreRatio;
+
+                var width = this.canvas.getAttribute('width');
+                var height = this.canvas.getAttribute('height');
+                this.canvas.width = width * ratio;
+                this.canvas.height = height * ratio;
+                this.buffer.width = width * ratio;
+                this.buffer.height = height * ratio;
+
+                this.canvas.style.width = width + 'px';
+                this.canvas.style.height = height + 'px';
+                this.buffer.style.width = width + 'px';
+                this.buffer.style.height = height + 'px';
+
+                //this.canvasCTX.scale(ratio, ratio);
+                this.bufferCTX.scale(ratio, ratio);
+            }
+
 
             this.origin = this.g.point.create(Math.round(this.size.left), Math.round(this.size.top));
             this.bounds = this.g.rectangle.create(0, 0, this.size.width, this.size.height);
@@ -452,7 +480,7 @@
          * @method paintNow()
          */
         paintNow: function() {
-            var gc = this.ctx;
+            var gc = this.bufferCTX;
             try {
                 gc.save();
                 gc.clearRect(0, 0, this.canvas.width, this.canvas.height);
