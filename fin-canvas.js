@@ -341,7 +341,7 @@
          * @method hidpi()
          */
 
-        isHDPI: function() {
+        isHiDPI: function() {
             return this.getAttribute('hidpi') !== null;
         },
 
@@ -424,8 +424,8 @@
 
             //fix ala sir spinka, see
             //http://www.html5rocks.com/en/tutorials/canvas/hidpi/
-            //just add 'hidpi' as an attribute to the fin-canvas tag
-            if (window.devicePixelRatio && this.isHDPI()) {
+            //just add 'hdpi' as an attribute to the fin-canvas tag
+            if (window.devicePixelRatio && this.isHiDPI()) {
                 var devicePixelRatio = window.devicePixelRatio || 1;
                 var backingStoreRatio = this.canvasCTX.webkitBackingStorePixelRatio ||
                     this.canvasCTX.mozBackingStorePixelRatio ||
