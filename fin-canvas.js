@@ -426,6 +426,7 @@
             //fix ala sir spinka, see
             //http://www.html5rocks.com/en/tutorials/canvas/hidpi/
             //just add 'hdpi' as an attribute to the fin-canvas tag
+            var ratio = 1;
             if (window.devicePixelRatio && this.isHiDPI()) {
                 var devicePixelRatio = window.devicePixelRatio || 1;
                 var backingStoreRatio = this.canvasCTX.webkitBackingStorePixelRatio ||
@@ -434,23 +435,25 @@
                     this.canvasCTX.oBackingStorePixelRatio ||
                     this.canvasCTX.backingStorePixelRatio || 1;
 
-                var ratio = devicePixelRatio / backingStoreRatio;
+                ratio = devicePixelRatio / backingStoreRatio;
 
-                var width = this.canvas.getAttribute('width');
-                var height = this.canvas.getAttribute('height');
-                this.canvas.width = width * ratio;
-                this.canvas.height = height * ratio;
-                this.buffer.width = width * ratio;
-                this.buffer.height = height * ratio;
 
-                this.canvas.style.width = width + 'px';
-                this.canvas.style.height = height + 'px';
-                this.buffer.style.width = width + 'px';
-                this.buffer.style.height = height + 'px';
 
                 //this.canvasCTX.scale(ratio, ratio);
-                this.bufferCTX.scale(ratio, ratio);
             }
+            var width = this.canvas.getAttribute('width');
+            var height = this.canvas.getAttribute('height');
+            this.canvas.width = width * ratio;
+            this.canvas.height = height * ratio;
+            this.buffer.width = width * ratio;
+            this.buffer.height = height * ratio;
+
+            this.canvas.style.width = width + 'px';
+            this.canvas.style.height = height + 'px';
+            this.buffer.style.width = width + 'px';
+            this.buffer.style.height = height + 'px';
+
+            this.bufferCTX.scale(ratio, ratio);
 
 
             this.origin = this.g.point.create(Math.round(this.size.left), Math.round(this.size.top));
