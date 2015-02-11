@@ -898,7 +898,8 @@
                     repeatCount: this.repeatKeyCount,
                     repeatStartTime: this.repeatKeyStartTime,
                     shift: e.shiftKey,
-                    identifier: e.keyIdentifier
+                    identifier: e.keyIdentifier,
+                    currentKeys: this.currentKeys.slice(0)
                 }
             }));
         },
@@ -929,7 +930,8 @@
                     meta: e.metaKey,
                     repeat: e.repeat,
                     shift: e.shiftKey,
-                    identifier: e.keyIdentifier
+                    identifier: e.keyIdentifier,
+                    currentKeys: this.currentKeys.slice(0)
                 }
             }));
         },
