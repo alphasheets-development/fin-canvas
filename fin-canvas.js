@@ -282,7 +282,7 @@
 
             this.mouseLocation = this.g.point.create(-1, -1);
             this.dragstart = this.g.point.create(-1, -1);
-            this.origin = this.g.point.create(0, 0);
+            //this.origin = this.g.point.create(0, 0);
             this.bounds = this.g.rectangle.create(0, 0, 0, 0);
             this.hasMouse = false;
 
@@ -456,7 +456,7 @@
             this.bufferCTX.scale(ratio, ratio);
 
 
-            this.origin = this.g.point.create(Math.round(this.size.left), Math.round(this.size.top));
+            //this.origin = this.g.point.create(Math.round(this.size.left), Math.round(this.size.top));
             this.bounds = this.g.rectangle.create(0, 0, this.size.width, this.size.height);
             //setTimeout(function() {
             var comp = this.getComponent();
@@ -546,7 +546,6 @@
          */
 
         finmousemove: function(e) {
-            var o = this.getOrigin();
             if (!this.isDragging() && this.mousedown) {
                 this.beDragging();
                 this.dispatchEvent(new CustomEvent('fin-dragstart', {
@@ -557,7 +556,7 @@
                 }));
                 this.dragstart = this.g.point.create(this.mouseLocation.x, this.mouseLocation.y);
             }
-            this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
+            this.mouseLocation = this.getLocal(e);
             if (this.isDragging()) {
                 this.dispatchEvent(new CustomEvent('fin-drag', {
                     detail: {
@@ -586,8 +585,7 @@
          */
         finmousedown: function(e) {
 
-            var o = this.getOrigin();
-            this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
+            this.mouseLocation = this.getLocal(e);
             this.mousedown = true;
 
             this.dispatchEvent(new CustomEvent('fin-mousedown', {
@@ -676,7 +674,7 @@
          * @method finclick(e)
          */
         finclick: function(e) {
-            this.mouseLocation = this.g.point.create((e.offsetX || e.layerX), (e.offsetY || e.layerY));
+            this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-click', {
                 detail: {
                     mouse: this.mouseLocation,
@@ -694,8 +692,7 @@
          */
         finrelease: function(e) {
             this.holdPulseCount = 0;
-            var o = this.getOrigin();
-            this.mouseLocation = this.g.point.create(e.x - o.x, e.y - o.y);
+            this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-release', {
                 detail: {
                     mouse: this.mouseLocation,
@@ -715,8 +712,7 @@
             if (!this.hasFocus()) {
                 return;
             }
-            var o = this.getOrigin();
-            this.mouseLocation = this.g.point.create(e.x - o.x, e.y - o.y);
+            this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-flick', {
                 detail: {
                     mouse: this.mouseLocation,
@@ -733,8 +729,7 @@
          * @method fintap(e)
          */
         fintap: function(e) {
-            var o = this.getOrigin();
-            this.mouseLocation = this.g.point.create(e.x - o.x, e.y - o.y);
+            this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-tap', {
                 detail: {
                     mouse: this.mouseLocation,
@@ -754,8 +749,7 @@
             if (!this.hasFocus()) {
                 return;
             }
-            var o = this.getOrigin();
-            this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
+            this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-trackstart', {
                 detail: {
                     mouse: this.mouseLocation,
@@ -776,8 +770,7 @@
             if (!this.hasFocus()) {
                 return;
             }
-            var o = this.getOrigin();
-            this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
+            this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-track', {
                 detail: {
                     mouse: this.mouseLocation,
@@ -795,8 +788,7 @@
          * @method fintrackend(e)
          */
         fintrackend: function(e) {
-            var o = this.getOrigin();
-            this.mouseLocation = this.g.point.create(e.clientX - o.x, e.clientY - o.y);
+            this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-trackend', {
                 detail: {
                     mouse: this.mouseLocation,
@@ -813,8 +805,7 @@
          * @method finhold(e)
          */
         finhold: function(e) {
-            var o = this.getOrigin();
-            this.mouseLocation = this.g.point.create(e.x - o.x, e.y - o.y);
+            this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-hold', {
                 detail: {
                     mouse: this.mouseLocation,
@@ -831,8 +822,7 @@
          * @method finholdpulse(e)
          */
         finholdpulse: function(e) {
-            var o = this.getOrigin();
-            this.mouseLocation = this.g.point.create(e.x - o.x, e.y - o.y);
+            this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-holdpulse', {
                 detail: {
                     mouse: this.mouseLocation,
@@ -850,7 +840,7 @@
          * @method findblclick(e)
          */
         findblclick: function(e) {
-            this.mouseLocation = this.g.point.create((e.offsetX || e.layerX), (e.offsetY || e.layerY));
+            this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-dblclick', {
                 detail: {
                     mouse: this.mouseLocation,
@@ -998,7 +988,23 @@
          * @method getOrigin()
          */
         getOrigin: function() {
-            return this.origin;
+            var rect = this.getBoundingClientRect();
+            var p = this.g.point.create(rect.left, rect.top);
+            return p;
+        },
+
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * getter accessor for the local point given a mouse event
+         *
+         * @method getLocal()
+         */
+        getLocal: function(e) {
+            var rect = this.getBoundingClientRect();
+            var p = this.g.point.create((e.x || e.layerX) - rect.left, (e.y || e.layerX) - rect.top);
+            return p;
         },
 
         /**
