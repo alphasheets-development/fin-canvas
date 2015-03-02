@@ -386,7 +386,10 @@
             var interval = 1000 / this.fps;
             var lastRepaintTime = 0;
             var animate = function(now) {
-                self.checksize();
+                self.checkSizeCounter++;
+                if (self.checkSizeCounter < 3 || (self.checkSizeCounter % 45) === 0) {
+                    self.checksize();
+                }
                 var delta = now - lastRepaintTime;
                 if (delta > interval && self.repaintNow) {
                     lastRepaintTime = now - (delta % interval);
@@ -407,11 +410,6 @@
         checksize: function() {
 
             //this is expensize lets do it at some modulo
-            this.checkSizeCounter++;
-            if (this.checkSizeCounter % 40 !== 0) {
-                return;
-            }
-
             var sizeNow = this.getBoundingClientRect();
             if (sizeNow.width !== this.size.width || sizeNow.height !== this.size.height) {
                 this.sizeChangedNotification();
