@@ -9,6 +9,17 @@
      * @property charMap
      * @type Array
      */
+    var canvases = [];
+    var paintLoopFunction = function(now) {
+        for (var i = 0; i < canvases.length; i++) {
+            try {
+                canvases[i](now);
+            } catch (e) {}
+        }
+        requestAnimationFrame(paintLoopFunction);
+    };
+    requestAnimationFrame(paintLoopFunction);
+
     var charMap = [];
     var empty = ['', ''];
     for (var i = 0; i < 256; i++) {
@@ -348,6 +359,9 @@
 
         },
 
+        detached: function() {
+            this.stopPainting();
+        },
 
         /**
          *                                                                      .
@@ -382,22 +396,29 @@
          */
         beginPainting: function() {
             var self = this;
-            self.repaintNow = true;
+            this.repaintNow = true;
+            this.tickPainter = function(now) {
+                self.tickPaint(now);
+            };
+            canvases.push(this.tickPainter);
+        },
+
+        stopPainting: function() {
+            canvases.splice(canvases.indexOf(this.tickPainter), 1);
+        },
+
+        tickPaint: function(now) {
             var interval = 1000 / this.fps;
             var lastRepaintTime = 0;
-            var animate = function(now) {
-                self.checkSizeCounter++;
-                if (self.checkSizeCounter < 3 || (self.checkSizeCounter % 45) === 0) {
-                    self.checksize();
-                }
-                var delta = now - lastRepaintTime;
-                if (delta > interval && self.repaintNow) {
-                    lastRepaintTime = now - (delta % interval);
-                    self.paintNow();
-                }
-                requestAnimationFrame(animate);
-            };
-            requestAnimationFrame(animate);
+            this.checkSizeCounter++;
+            if (this.checkSizeCounter < 3 || (this.checkSizeCounter % 45) === 0) {
+                this.checksize();
+            }
+            var delta = now - lastRepaintTime;
+            if (delta > interval && this.repaintNow) {
+                lastRepaintTime = now - (delta % interval);
+                this.paintNow();
+            }
         },
 
         /**
