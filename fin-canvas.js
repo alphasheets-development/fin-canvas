@@ -260,6 +260,20 @@
          */
         hasMouse: false,
 
+
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * counter to throttle size checking
+         *
+         * @attribute checkSizeCounter
+         * @default 0
+         * @type Number
+         */
+
+        checkSizeCounter: 0,
+
         /**
          *                                                                      .
          *                                                                      .
@@ -267,9 +281,10 @@
          *
          * @method ready()
          */
-        ready: function() {
+        attached: function() {
 
             var self = this;
+            this.checkSizeCounter = 0;
             this.g = document.createElement('fin-rectangle');
             this.canvas = this.shadowRoot.querySelector('.canvas');
             this.focuser = this.shadowRoot.querySelector('button');
@@ -390,6 +405,13 @@
          * @method checksize()
          */
         checksize: function() {
+
+            //this is expensize lets do it at some modulo
+            this.checkSizeCounter++;
+            if (this.checkSizeCounter % 40 !== 0) {
+                return;
+            }
+
             var sizeNow = this.getBoundingClientRect();
             if (sizeNow.width !== this.size.width || sizeNow.height !== this.size.height) {
                 this.sizeChangedNotification();
