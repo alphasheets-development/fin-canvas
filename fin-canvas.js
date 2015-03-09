@@ -1044,7 +1044,7 @@
          */
         getLocal: function(e) {
             var rect = this.getBoundingClientRect();
-            var p = this.g.point.create((e.x || e.layerX) - rect.left, (e.y || e.layerX) - rect.top);
+            var p = this.g.point.create((e.x || e.clientX) - rect.left, (e.y || e.clientY) - rect.top);
             return p;
         },
 
