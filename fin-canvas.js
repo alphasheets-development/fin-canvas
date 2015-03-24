@@ -292,7 +292,7 @@
          *
          * @method ready()
          */
-        attached: function() {
+        ready: function() {
 
             var self = this;
             this.checkSizeCounter = 0;
