@@ -539,11 +539,18 @@
          * @method paintNow()
          */
         paintNow: function() {
+            var self = this;
+            this.safePaintImmediately(function(gc) {
+                gc.clearRect(0, 0, self.canvas.width, self.canvas.height);
+                self.paint(gc);
+            });
+        },
+
+        safePaintImmediately: function(paintFunction) {
             var gc = this.bufferCTX;
             try {
                 gc.save();
-                gc.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                this.paint(gc);
+                paintFunction(gc);
             } finally {
                 gc.restore();
             }
