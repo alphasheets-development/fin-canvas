@@ -543,6 +543,7 @@
             this.safePaintImmediately(function(gc) {
                 gc.clearRect(0, 0, self.canvas.width, self.canvas.height);
                 self.paint(gc);
+                self.repaintNow = false;
             });
         },
 
@@ -555,7 +556,6 @@
                 gc.restore();
             }
             this.flushBuffer();
-            this.repaintNow = false;
         },
 
         /**

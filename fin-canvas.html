@@ -614,6 +614,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             this.safePaintImmediately(function(gc) {
                 gc.clearRect(0, 0, self.canvas.width, self.canvas.height);
                 self.paint(gc);
+                self.repaintNow = false;
             });
         },
 
@@ -626,7 +627,6 @@ The `fin-canvas` element is a custom web component canvas control and includes a
                 gc.restore();
             }
             this.flushBuffer();
-            this.repaintNow = false;
         },
 
         /**
