@@ -109,12 +109,12 @@
         canvas: null,
 
         /**                                                             .
-         * cavasCTX is the cached graphics context from canvas we bit blit to
+         * canvasCTX is the cached graphics context from canvas we bit blit to
          *
-         * @property cavasCTX
+         * @property canvasCTX
          * @type 2DRenderingContext
          */
-        cavasCTX: null,
+        canvasCTX: null,
 
         /**                                                             .
          * focuser is a button element that is used to simulate proper focus semantics
@@ -271,8 +271,6 @@
          */
         hasMouse: false,
 
-
-
         /**
          *                                                                      .
          *                                                                      .
@@ -282,7 +280,6 @@
          * @default 0
          * @type Number
          */
-
         checkSizeCounter: 0,
 
         /**
@@ -368,11 +365,21 @@
          *                                                                      .
          * return if I have the hidpi attribute set
          *
-         * @method hidpi()
+         * @method isHiDPI()
          */
-
         isHiDPI: function() {
             return this.getAttribute('hidpi') !== null;
+        },
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * return if I have the bitblit attribute set
+         *
+         * @method useBitBlit()
+         */
+        useBitBlit: function() {
+            return this.getAttribute('bitblit') !== 'false';
         },
 
         /**
@@ -548,14 +555,17 @@
         },
 
         safePaintImmediately: function(paintFunction) {
-            var gc = this.bufferCTX;
+            var useBitBlit = this.useBitBlit();
+            var gc = useBitBlit ? this.bufferCTX : this.canvasCTX;
             try {
                 gc.save();
                 paintFunction(gc);
             } finally {
                 gc.restore();
             }
-            this.flushBuffer();
+            if (useBitBlit) {
+                this.flushBuffer();
+            }
         },
 
         /**
