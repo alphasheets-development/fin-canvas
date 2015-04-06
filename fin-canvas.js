@@ -475,7 +475,8 @@
             //http://www.html5rocks.com/en/tutorials/canvas/hidpi/
             //just add 'hdpi' as an attribute to the fin-canvas tag
             var ratio = 1;
-            if (window.devicePixelRatio && this.isHiDPI()) {
+            var isHIDPI = window.devicePixelRatio && this.isHiDPI();
+            if (isHIDPI) {
                 var devicePixelRatio = window.devicePixelRatio || 1;
                 var backingStoreRatio = this.canvasCTX.webkitBackingStorePixelRatio ||
                     this.canvasCTX.mozBackingStorePixelRatio ||
@@ -502,7 +503,9 @@
             this.buffer.style.height = height + 'px';
 
             this.bufferCTX.scale(ratio, ratio);
-
+            if (isHIDPI) {
+                this.canvasCTX.scale(ratio, ratio);
+            }
 
             //this.origin = this.g.point.create(Math.round(this.size.left), Math.round(this.size.top));
             this.bounds = this.g.rectangle.create(0, 0, this.size.width, this.size.height);
