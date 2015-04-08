@@ -944,7 +944,7 @@
             if (this.currentKeys.indexOf(keyChar) === -1) {
                 this.currentKeys.push(keyChar);
             }
-            console.log(keyChar, e.keyCode);
+            //console.log(keyChar, e.keyCode);
             this.dispatchEvent(new CustomEvent('fin-keydown', {
                 detail: {
                     alt: e.altKey,
