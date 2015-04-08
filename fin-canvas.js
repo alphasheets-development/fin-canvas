@@ -91,6 +91,11 @@
     charMap[40] = ['DOWN', 'DOWNSHIFT'];
     charMap[39] = ['RIGHT', 'RIGHTSHIFT'];
 
+    charMap[33] = ['PAGEUP', 'PAGEUPSHIFT'];
+    charMap[34] = ['PAGEDOWN', 'PAGEDOWNSHIFT'];
+    charMap[35] = ['PAGERIGHT', 'PAGERIGHTSHIFT'];
+    charMap[36] = ['PAGELEFT', 'PAGELEFTSHIFT'];
+
     Polymer('fin-canvas', { /* jshint ignore:line */
         /**                                                             .
          * g is the [fin-rectangle](http://stevewirts.github.io/fin-rectangle/components/fin-rectangle/) factory for creating instances of rectangle and point
@@ -939,6 +944,7 @@
             if (this.currentKeys.indexOf(keyChar) === -1) {
                 this.currentKeys.push(keyChar);
             }
+            console.log(keyChar, e.keyCode);
             this.dispatchEvent(new CustomEvent('fin-keydown', {
                 detail: {
                     alt: e.altKey,
