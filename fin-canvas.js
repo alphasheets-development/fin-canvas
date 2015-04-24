@@ -916,6 +916,10 @@
             }));
         },
 
+        getCharMap: function() {
+            return charMap;
+        },
+
         /**
          *                                                                      .
          *                                                                      .
@@ -927,6 +931,8 @@
             if (!this.hasFocus()) {
                 return;
             }
+            var charMap = this.getCharMap();
+
             //e.preventDefault();
             var keyChar = e.shiftKey ? charMap[e.keyCode][1] : charMap[e.keyCode][0];
             if (e.repeat) {
