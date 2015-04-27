@@ -287,6 +287,8 @@
          */
         checkSizeCounter: 0,
 
+        lastDoubleClickTime: 0,
+
         /**
          *                                                                      .
          *                                                                      .
@@ -791,23 +793,6 @@
         /**
          *                                                                      .
          *                                                                      .
-         * handle the tap event
-         *
-         * @method fintap(e)
-         */
-        fintap: function(e) {
-            this.mouseLocation = this.getLocal(e);
-            this.dispatchEvent(new CustomEvent('fin-tap', {
-                detail: {
-                    mouse: this.mouseLocation,
-                    keys: this.currentKeys
-                }
-            }));
-        },
-
-        /**
-         *                                                                      .
-         *                                                                      .
          * handle the trackstart event
          *
          * @method fintap(e)
@@ -902,12 +887,48 @@
         /**
          *                                                                      .
          *                                                                      .
+         * handle the tap event
+         *
+         * @method fintap(e)
+         */
+        fintap: function(e) {
+            //this nonsense is to hold a tap if it's really a double click
+            var self = this;
+            var now = Date.now();
+            var dif = now - this.lastDoubleClickTime;
+            if (dif < 300) {
+                return;
+            }
+            setTimeout(function() {
+                self._fintap(e);
+            }, 180);
+        },
+
+        _fintap: function(e) {
+            //this nonsense is to hold a tap if it's really a double click
+            var now = Date.now();
+            var dif = now - this.lastDoubleClickTime;
+            if (dif < 300) {
+                return;
+            }
+            this.mouseLocation = this.getLocal(e);
+            this.dispatchEvent(new CustomEvent('fin-tap', {
+                detail: {
+                    mouse: this.mouseLocation,
+                    keys: this.currentKeys
+                }
+            }));
+        },
+        /**
+         *                                                                      .
+         *                                                                      .
          * handle the mouse double click event
          *
          * @method findblclick(e)
          */
         findblclick: function(e) {
             this.mouseLocation = this.getLocal(e);
+            this.lastDoubleClickTime = Date.now();
             this.dispatchEvent(new CustomEvent('fin-dblclick', {
                 detail: {
                     mouse: this.mouseLocation,
