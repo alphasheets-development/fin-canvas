@@ -354,9 +354,9 @@
             this.addEventListener('click', function(e) {
                 self.finclick(e);
             });
-            this.addEventListener('dblclick', function(e) {
-                self.findblclick(e);
-            });
+            // this.addEventListener('dblclick', function(e) {
+            //     self.findblclick(e);
+            // });
 
             this.resize();
             this.beginPainting();
