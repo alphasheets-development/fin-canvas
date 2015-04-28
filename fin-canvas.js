@@ -686,6 +686,7 @@
                     }
                 }));
                 this.beNotDragging();
+                this.dragEndtime = Date.now();
             }
             this.mousedown = false;
             this.mouseLocation = this.g.point.create(-1, -1);
