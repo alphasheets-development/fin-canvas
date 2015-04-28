@@ -359,6 +359,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
         checkSizeCounter: 0,
 
         lastDoubleClickTime: 0,
+        dragEndTime: 0,
 
         /**
          *                                                                      .
@@ -371,6 +372,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
 
             var self = this;
             this.checkSizeCounter = 0;
+            this.dragEndtime = Date.now();
             this.g = document.createElement('fin-rectangle');
             this.canvas = this.shadowRoot.querySelector('.canvas');
             this.focuser = this.shadowRoot.querySelector('button');
@@ -968,6 +970,11 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             var now = Date.now();
             var dif = now - this.lastDoubleClickTime;
             if (dif < 300) {
+                return;
+            }
+            //dragend is also causing a tap
+            //lets fix this here
+            if (now - this.dragEndtime < 100) {
                 return;
             }
             setTimeout(function() {
