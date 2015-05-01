@@ -1159,7 +1159,16 @@
         enableDocumentElementSelection: function() {
             var style = document.body.style;
             style.cssText = style.cssText.replace('-webkit-user-select: none', '');
-        }
+        },
+
+        setFocusable: function(boolean) {
+            if (boolean === true) {
+                this.focuser.style.display = '';
+            } else {
+                this.focuser.style.display = 'none';
+            }
+
+        },
 
     });
 
