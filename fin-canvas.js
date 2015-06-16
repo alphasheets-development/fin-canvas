@@ -747,7 +747,7 @@
          */
         finclick: function(e) {
             this.mouseLocation = this.getLocal(e);
-            this.dispatchEvent(new CustomEvent('fin-click', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-click', {
                 detail: {
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
@@ -980,7 +980,7 @@
                 this.currentKeys.push(keyChar);
             }
             //console.log(keyChar, e.keyCode);
-            this.dispatchEvent(new CustomEvent('fin-keydown', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-keydown', {
                 detail: {
                     alt: e.altKey,
                     ctrl: e.ctrlKey,
@@ -1013,7 +1013,7 @@
             this.repeatKeyCount = 0;
             this.repeatKey = null;
             this.repeatKeyStartTime = 0;
-            this.dispatchEvent(new CustomEvent('fin-keyup', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-keyup', {
                 detail: {
                     alt: e.altKey,
                     ctrl: e.ctrlKey,
