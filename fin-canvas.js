@@ -3,23 +3,43 @@
 
 (function() {
 
-    /**
-     * charMap is a private property that maps keys strokes to key chars,
-     *
-     * @property charMap
-     * @type Array
-     */
-    var canvases = [];
+    var paintables = [];
+    var resizables = [];
+    var paintLoopRunning = true;
+    var resizeLoopRunning = true;
+
     var paintLoopFunction = function(now) {
-        for (var i = 0; i < canvases.length; i++) {
+        if (!paintLoopRunning) {
+            return;
+        }
+        for (var i = 0; i < paintables.length; i++) {
             try {
-                canvases[i](now);
+                paintables[i](now);
             } catch (e) {}
         }
         requestAnimationFrame(paintLoopFunction);
     };
     requestAnimationFrame(paintLoopFunction);
 
+
+    var resizablesLoopFunction = function(now) {
+        if (!resizeLoopRunning) {
+            return;
+        }
+        for (var i = 0; i < resizables.length; i++) {
+            try {
+                resizables[i](now);
+            } catch (e) {}
+        }
+    };
+    setInterval(resizablesLoopFunction, 200);
+
+    /**
+     * charMap is a private property that maps keys strokes to key chars,
+     *
+     * @property charMap
+     * @type Array
+     */
     var charMap = [];
     var empty = ['', ''];
     for (var i = 0; i < 256; i++) {
@@ -339,16 +359,38 @@
             // });
 
             this.resize();
+            this.beginResizing();
             this.beginPainting();
 
-            setInterval(function() {
-                self.checksize();
-            }, 200);
+        },
 
+        stopPaintThread: function() {
+            paintLoopRunning = false;
+        },
+
+        restartPaintThread: function() {
+            if (paintLoopRunning) {
+                return; // already running
+            }
+            paintLoopRunning = true;
+            requestAnimationFrame(paintLoopFunction);
+        },
+
+        stopResizeThread: function() {
+            resizeLoopRunning = false;
+        },
+
+        restartResizeThread: function() {
+            if (resizeLoopRunning) {
+                return; // already running
+            }
+            resizeLoopRunning = true;
+            setInterval(resizablesLoopFunction, 200);
         },
 
         detached: function() {
             this.stopPainting();
+            this.stopResizing();
         },
 
         /**
@@ -415,21 +457,23 @@
             this.tickPainter = function(now) {
                 self.tickPaint(now);
             };
-            canvases.push(this.tickPainter);
+            paintables.push(this.tickPainter);
         },
 
         stopPainting: function() {
-            canvases.splice(canvases.indexOf(this.tickPainter), 1);
+            paintables.splice(paintables.indexOf(this.tickPainter), 1);
         },
 
-        tickPaint: function(now) {
-            var interval = 1000 / this.getFPS();
-            var lastRepaintTime = 0;
-            var delta = now - lastRepaintTime;
-            if (delta > interval && this.repaintNow) {
-                lastRepaintTime = now - (delta % interval);
-                this.paintNow();
-            }
+        beginResizing: function() {
+            var self = this;
+            this.tickResizer = function() {
+                self.checksize();
+            };
+            resizables.push(this.tickResizer);
+        },
+
+        stopResizing: function() {
+            resizables.splice(resizables.indexOf(this.tickResizer), 1);
         },
 
         /**
