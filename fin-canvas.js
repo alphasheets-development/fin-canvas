@@ -443,7 +443,7 @@
             var comp = this.children[0];
             return comp;
         },
-
+//
         tickPaint: function(now) {
             var fps = this.getFPS();
             if (fps === 0) {
