@@ -146,14 +146,6 @@
         ctx: null,
 
         /**                                                             .
-         * fps is how many times a second we check the repaint flag for redrawing
-         *
-         * @property fps
-         * @type Number
-         */
-        fps: null,
-
-        /**                                                             .
          * mouseLocation is the current position of the mouse pointer
          *
          * @property mouseLocation
@@ -310,8 +302,6 @@
             this.buffer = document.createElement('canvas');
             this.bufferCTX = this.buffer.getContext('2d');
 
-            this.fps = this.getAttribute('fps') || 60;
-
             this.mouseLocation = this.g.point.create(-1, -1);
             this.dragstart = this.g.point.create(-1, -1);
             //this.origin = this.g.point.create(0, 0);
@@ -394,6 +384,21 @@
         /**
          *                                                                      .
          *                                                                      .
+         * return if I have the bitblit attribute set
+         *
+         * @method useBitBlit()
+         */
+        getFPS: function() {
+            var fps = this.getAttribute('fps');
+            if (fps === 0 || !fps) {
+                return 0;
+            }
+            return fps;
+        },
+
+        /**
+         *                                                                      .
+         *                                                                      .
          * return my one child fin-canvas-component
          *
          * @method getComponent()
@@ -424,7 +429,7 @@
         },
 
         tickPaint: function(now) {
-            var interval = 1000 / this.fps;
+            var interval = 1000 / this.getFPS();
             var lastRepaintTime = 0;
             this.checkSizeCounter++;
             if (this.checkSizeCounter < 3 || (this.checkSizeCounter % 45) === 0) {
