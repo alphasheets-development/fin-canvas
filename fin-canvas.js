@@ -268,17 +268,6 @@
          */
         hasMouse: false,
 
-        /**
-         *                                                                      .
-         *                                                                      .
-         * counter to throttle size checking
-         *
-         * @attribute checkSizeCounter
-         * @default 0
-         * @type Number
-         */
-        checkSizeCounter: 0,
-
         lastDoubleClickTime: 0,
         dragEndTime: 0,
 
@@ -292,7 +281,6 @@
         ready: function() {
 
             var self = this;
-            this.checkSizeCounter = 0;
             this.dragEndtime = Date.now();
             this.g = document.createElement('fin-rectangle');
             this.canvas = this.shadowRoot.querySelector('.canvas');
@@ -353,6 +341,10 @@
             this.resize();
             this.beginPainting();
 
+            setInterval(function() {
+                self.checksize();
+            }, 200);
+
         },
 
         detached: function() {
@@ -384,16 +376,18 @@
         /**
          *                                                                      .
          *                                                                      .
-         * return if I have the bitblit attribute set
+         * return frames per second
          *
-         * @method useBitBlit()
+         * @method getFPS()
          */
         getFPS: function() {
             var fps = this.getAttribute('fps');
             if (fps === 0 || !fps) {
-                return 0;
+                fps = 0;
             }
-            return parseInt(fps);
+            fps = parseInt(fps);
+            return fps;
+
         },
 
         /**
@@ -431,10 +425,6 @@
         tickPaint: function(now) {
             var interval = 1000 / this.getFPS();
             var lastRepaintTime = 0;
-            this.checkSizeCounter++;
-            if (this.checkSizeCounter < 3 || (this.checkSizeCounter % 45) === 0) {
-                this.checksize();
-            }
             var delta = now - lastRepaintTime;
             if (delta > interval && this.repaintNow) {
                 lastRepaintTime = now - (delta % interval);
