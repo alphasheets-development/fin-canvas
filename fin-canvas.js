@@ -443,11 +443,11 @@
             var comp = this.children[0];
             return comp;
         },
-//
+
         tickPaint: function(now) {
             var fps = this.getFPS();
             if (fps === 0) {
-              return;
+                return;
             }
             var interval = 1000 / fps;
             var lastRepaintTime = 0;
