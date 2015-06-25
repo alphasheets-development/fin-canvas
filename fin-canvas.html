@@ -464,7 +464,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             if (fps === 0 || !fps) {
                 return 0;
             }
-            return fps;
+            return parseInt(fps);
         },
 
         /**
@@ -1148,7 +1148,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             var fps = this.getFPS();
             this.repaintNow = true;
             if (fps === 0) {
-              this.paintNow();
+                this.paintNow();
             }
         },
 

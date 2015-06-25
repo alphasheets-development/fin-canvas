@@ -393,7 +393,7 @@
             if (fps === 0 || !fps) {
                 return 0;
             }
-            return fps;
+            return parseInt(fps);
         },
 
         /**
@@ -1077,7 +1077,7 @@
             var fps = this.getFPS();
             this.repaintNow = true;
             if (fps === 0) {
-              this.paintNow();
+                this.paintNow();
             }
         },
 
