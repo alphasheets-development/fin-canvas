@@ -1125,7 +1125,7 @@
         repaint: function() {
             var fps = this.getFPS();
             this.repaintNow = true;
-            if (fps === 0) {
+            if (!paintLoopRunning || fps === 0) {
                 this.paintNow();
             }
         },
