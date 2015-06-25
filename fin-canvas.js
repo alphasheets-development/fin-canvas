@@ -444,6 +444,20 @@
             return comp;
         },
 
+        tickPaint: function(now) {
+            var interval = 1000 / this.fps;
+            var lastRepaintTime = 0;
+            this.checkSizeCounter++;
+            if (this.checkSizeCounter < 3 || (this.checkSizeCounter % 45) === 0) {
+                this.checksize();
+            }
+            var delta = now - lastRepaintTime;
+            if (delta > interval && this.repaintNow) {
+                lastRepaintTime = now - (delta % interval);
+                this.paintNow();
+            }
+        },
+
         /**
          *                                                                      .
          *                                                                      .
