@@ -1151,6 +1151,9 @@
             this.dispatchEvent(new CustomEvent('fin-context-menu', {
                 detail: {
                     primitiveEvent: e,
+                    mouse: this.mouseLocation,
+                    keys: this.currentKeys,
+                    isRightClick: this.isRightClick(e)
                 }
             }));
         },

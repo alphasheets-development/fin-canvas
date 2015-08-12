@@ -1222,6 +1222,9 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             this.dispatchEvent(new CustomEvent('fin-context-menu', {
                 detail: {
                     primitiveEvent: e,
+                    mouse: this.mouseLocation,
+                    keys: this.currentKeys,
+                    isRightClick: this.isRightClick(e)
                 }
             }));
         },
