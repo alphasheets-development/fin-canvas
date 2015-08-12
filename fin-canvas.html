@@ -746,6 +746,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
                 this.beDragging();
                 this.dispatchEvent(new CustomEvent('fin-dragstart', {
                     detail: {
+                        primitiveEvent: e,
                         mouse: this.mouseLocation,
                         keys: this.currentKeys
                     }
@@ -756,6 +757,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             if (this.isDragging()) {
                 this.dispatchEvent(new CustomEvent('fin-drag', {
                     detail: {
+                        primitiveEvent: e,
                         mouse: this.mouseLocation,
                         dragstart: this.dragstart,
                         keys: this.currentKeys
@@ -765,6 +767,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             if (this.bounds.contains(this.mouseLocation)) {
                 this.dispatchEvent(new CustomEvent('fin-mousemove', {
                     detail: {
+                        primitiveEvent: e,
                         mouse: this.mouseLocation,
                         keys: this.currentKeys
                     }
@@ -786,6 +789,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
 
             this.dispatchEvent(new CustomEvent('fin-mousedown', {
                 detail: {
+                    primitiveEvent: e,
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
                 }
@@ -801,10 +805,11 @@ The `fin-canvas` element is a custom web component canvas control and includes a
          *
          * @method finmouseup(e)
          */
-        finmouseup: function() {
+        finmouseup: function(e) {
             if (this.isDragging()) {
                 this.dispatchEvent(new CustomEvent('fin-dragend', {
                     detail: {
+                        primitiveEvent: e,
                         mouse: this.mouseLocation,
                         dragstart: this.dragstart,
                         keys: this.currentKeys
@@ -817,6 +822,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             this.mouseLocation = this.g.point.create(-1, -1);
             this.dispatchEvent(new CustomEvent('fin-mouseup', {
                 detail: {
+                    primitiveEvent: e,
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
                 }
@@ -830,12 +836,13 @@ The `fin-canvas` element is a custom web component canvas control and includes a
          *
          * @method finmouseout(e)
          */
-        finmouseout: function() {
+        finmouseout: function(e) {
             if (!this.mousedown) {
                 this.mouseLocation = this.g.point.create(-1, -1);
             }
             this.dispatchEvent(new CustomEvent('fin-mouseout', {
                 detail: {
+                    primitiveEvent: e,
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
                 }
@@ -874,6 +881,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-canvas-click', {
                 detail: {
+                    primitiveEvent: e,
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
                 }
@@ -892,6 +900,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-release', {
                 detail: {
+                    primitiveEvent: e,
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
                 }
@@ -912,6 +921,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-flick', {
                 detail: {
+                    primitiveEvent: e,
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
                 }
@@ -988,6 +998,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-hold', {
                 detail: {
+                    primitiveEvent: e,
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
                 }
@@ -1005,6 +1016,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-holdpulse', {
                 detail: {
+                    primitiveEvent: e,
                     mouse: this.mouseLocation,
                     keys: this.currentKeys,
                     count: this.holdPulseCount++
@@ -1047,6 +1059,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-tap', {
                 detail: {
+                    primitiveEvent: e,
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
                 }
@@ -1064,6 +1077,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             this.lastDoubleClickTime = Date.now();
             this.dispatchEvent(new CustomEvent('fin-dblclick', {
                 detail: {
+                    primitiveEvent: e,
                     mouse: this.mouseLocation,
                     keys: this.currentKeys
                 }
@@ -1107,6 +1121,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             //console.log(keyChar, e.keyCode);
             this.dispatchEvent(new CustomEvent('fin-canvas-keydown', {
                 detail: {
+                    primitiveEvent: e,
                     alt: e.altKey,
                     ctrl: e.ctrlKey,
                     char: keyChar,
@@ -1140,6 +1155,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             this.repeatKeyStartTime = 0;
             this.dispatchEvent(new CustomEvent('fin-canvas-keyup', {
                 detail: {
+                    primitiveEvent: e,
                     alt: e.altKey,
                     ctrl: e.ctrlKey,
                     char: keyChar,
@@ -1165,7 +1181,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             this.focused = true;
             this.dispatchEvent(new CustomEvent('fin-focus-gained', {
                 detail: {
-                    e: e
+                    primitiveEvent: e,
                 }
             }));
         },
@@ -1181,7 +1197,7 @@ The `fin-canvas` element is a custom web component canvas control and includes a
             this.focused = false;
             this.dispatchEvent(new CustomEvent('fin-focus-lost', {
                 detail: {
-                    e: e
+                    primitiveEvent: e,
                 }
             }));
         },
