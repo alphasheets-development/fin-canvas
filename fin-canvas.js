@@ -354,6 +354,9 @@
             this.addEventListener('click', function(e) {
                 self.finclick(e);
             });
+            this.addEventListener('contextmenu', function(e) {
+                self.fincontextmenu(e);
+            });
             // this.addEventListener('dblclick', function(e) {
             //     self.findblclick(e);
             // });
@@ -1125,6 +1128,21 @@
         finfocuslost: function(e) {
             this.focused = false;
             this.dispatchEvent(new CustomEvent('fin-focus-lost', {
+                detail: {
+                    primitiveEvent: e,
+                }
+            }));
+        },
+
+        /**
+         *                                                                      .
+         *                                                                      .
+         * handle the contextmenu event
+         *
+         * @method finfocuslost(e)
+         */
+        fincontextmenu: function(e) {
+            this.dispatchEvent(new CustomEvent('fin-context-menu', {
                 detail: {
                     primitiveEvent: e,
                 }
