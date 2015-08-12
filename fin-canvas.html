@@ -751,7 +751,8 @@ The `fin-canvas` element is a custom web component canvas control and includes a
                     detail: {
                         primitiveEvent: e,
                         mouse: this.mouseLocation,
-                        keys: this.currentKeys
+                        keys: this.currentKeys,
+                        isRightClick: this.isRightClick(e)
                     }
                 }));
                 this.dragstart = this.g.point.create(this.mouseLocation.x, this.mouseLocation.y);
@@ -763,7 +764,8 @@ The `fin-canvas` element is a custom web component canvas control and includes a
                         primitiveEvent: e,
                         mouse: this.mouseLocation,
                         dragstart: this.dragstart,
-                        keys: this.currentKeys
+                        keys: this.currentKeys,
+                        isRightClick: this.isRightClick(e)
                     }
                 }));
             }
@@ -931,7 +933,8 @@ The `fin-canvas` element is a custom web component canvas control and includes a
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
-                    keys: this.currentKeys
+                    keys: this.currentKeys,
+                    isRightClick: this.isRightClick(e)
                 }
             }));
         },
@@ -1008,7 +1011,8 @@ The `fin-canvas` element is a custom web component canvas control and includes a
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
-                    keys: this.currentKeys
+                    keys: this.currentKeys,
+                    isRightClick: this.isRightClick(e)
                 }
             }));
         },
@@ -1088,7 +1092,8 @@ The `fin-canvas` element is a custom web component canvas control and includes a
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
-                    keys: this.currentKeys
+                    keys: this.currentKeys,
+                    isRightClick: this.isRightClick(e)
                 }
             }));
         },

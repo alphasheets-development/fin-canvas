@@ -680,7 +680,8 @@
                     detail: {
                         primitiveEvent: e,
                         mouse: this.mouseLocation,
-                        keys: this.currentKeys
+                        keys: this.currentKeys,
+                        isRightClick: this.isRightClick(e)
                     }
                 }));
                 this.dragstart = this.g.point.create(this.mouseLocation.x, this.mouseLocation.y);
@@ -692,7 +693,8 @@
                         primitiveEvent: e,
                         mouse: this.mouseLocation,
                         dragstart: this.dragstart,
-                        keys: this.currentKeys
+                        keys: this.currentKeys,
+                        isRightClick: this.isRightClick(e)
                     }
                 }));
             }
@@ -860,7 +862,8 @@
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
-                    keys: this.currentKeys
+                    keys: this.currentKeys,
+                    isRightClick: this.isRightClick(e)
                 }
             }));
         },
@@ -937,7 +940,8 @@
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
-                    keys: this.currentKeys
+                    keys: this.currentKeys,
+                    isRightClick: this.isRightClick(e)
                 }
             }));
         },
@@ -1017,7 +1021,8 @@
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
-                    keys: this.currentKeys
+                    keys: this.currentKeys,
+                    isRightClick: this.isRightClick(e)
                 }
             }));
         },
