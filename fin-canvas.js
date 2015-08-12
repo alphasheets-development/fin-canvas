@@ -1153,7 +1153,7 @@
          * @method finfocuslost(e)
          */
         fincontextmenu: function(e) {
-            this.dispatchEvent(new CustomEvent('fin-context-menu', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-context-menu', {
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
