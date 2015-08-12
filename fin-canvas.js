@@ -723,7 +723,8 @@
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
-                    keys: this.currentKeys
+                    keys: this.currentKeys,
+                    isRightClick: this.isRightClick(e)
                 }
             }));
             this.takeFocus();
@@ -744,7 +745,8 @@
                         primitiveEvent: e,
                         mouse: this.mouseLocation,
                         dragstart: this.dragstart,
-                        keys: this.currentKeys
+                        keys: this.currentKeys,
+                        isRightClick: this.isRightClick(e)
                     }
                 }));
                 this.beNotDragging();
@@ -756,7 +758,8 @@
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
-                    keys: this.currentKeys
+                    keys: this.currentKeys,
+                    isRightClick: this.isRightClick(e)
                 }
             }));
         },
@@ -797,7 +800,8 @@
                 detail: {
                     mouse: this.mouseLocation,
                     keys: this.currentKeys,
-                    primitiveEvent: e
+                    primitiveEvent: e,
+                    isRightClick: this.isRightClick(e)
                 }
             }));
         },
@@ -815,7 +819,8 @@
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
-                    keys: this.currentKeys
+                    keys: this.currentKeys,
+                    isRightClick: this.isRightClick(e)
                 }
             }));
         },
@@ -993,7 +998,8 @@
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
-                    keys: this.currentKeys
+                    keys: this.currentKeys,
+                    isRightClick: this.isRightClick(e)
                 }
             }));
         },
@@ -1261,6 +1267,18 @@
             }
 
         },
+
+        isRightClick: function(e) {
+            var isRightMB;
+            e = e || window.event;
+
+            if ('which' in e) { // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+                isRightMB = e.which === 3;
+            } else if ('button' in e) { // IE, Opera
+                isRightMB = e.button === 2;
+            }
+            return isRightMB;
+        }
 
     });
 
