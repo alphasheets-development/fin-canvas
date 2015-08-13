@@ -755,7 +755,6 @@
                 this.dragEndtime = Date.now();
             }
             this.mousedown = false;
-            this.mouseLocation = this.g.point.create(-1, -1);
             this.dispatchEvent(new CustomEvent('fin-canvas-mouseup', {
                 detail: {
                     primitiveEvent: e,
@@ -764,6 +763,7 @@
                     isRightClick: this.isRightClick(e)
                 }
             }));
+            this.mouseLocation = this.g.point.create(-1, -1);
         },
 
         /**
