@@ -676,7 +676,7 @@
         finmousemove: function(e) {
             if (!this.isDragging() && this.mousedown) {
                 this.beDragging();
-                this.dispatchEvent(new CustomEvent('fin-dragstart', {
+                this.dispatchEvent(new CustomEvent('fin-canvas-dragstart', {
                     detail: {
                         primitiveEvent: e,
                         mouse: this.mouseLocation,
@@ -688,7 +688,7 @@
             }
             this.mouseLocation = this.getLocal(e);
             if (this.isDragging()) {
-                this.dispatchEvent(new CustomEvent('fin-drag', {
+                this.dispatchEvent(new CustomEvent('fin-canvas-drag', {
                     detail: {
                         primitiveEvent: e,
                         mouse: this.mouseLocation,
@@ -699,7 +699,7 @@
                 }));
             }
             if (this.bounds.contains(this.mouseLocation)) {
-                this.dispatchEvent(new CustomEvent('fin-mousemove', {
+                this.dispatchEvent(new CustomEvent('fin-canvas-mousemove', {
                     detail: {
                         primitiveEvent: e,
                         mouse: this.mouseLocation,
@@ -721,7 +721,7 @@
             this.mouseLocation = this.getLocal(e);
             this.mousedown = true;
 
-            this.dispatchEvent(new CustomEvent('fin-mousedown', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-mousedown', {
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
@@ -742,7 +742,7 @@
          */
         finmouseup: function(e) {
             if (this.isDragging()) {
-                this.dispatchEvent(new CustomEvent('fin-dragend', {
+                this.dispatchEvent(new CustomEvent('fin-canvas-dragend', {
                     detail: {
                         primitiveEvent: e,
                         mouse: this.mouseLocation,
@@ -756,7 +756,7 @@
             }
             this.mousedown = false;
             this.mouseLocation = this.g.point.create(-1, -1);
-            this.dispatchEvent(new CustomEvent('fin-mouseup', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-mouseup', {
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
@@ -777,7 +777,7 @@
             if (!this.mousedown) {
                 this.mouseLocation = this.g.point.create(-1, -1);
             }
-            this.dispatchEvent(new CustomEvent('fin-mouseout', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-mouseout', {
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
@@ -798,7 +798,7 @@
                 return;
             }
             e.preventDefault();
-            this.dispatchEvent(new CustomEvent('fin-wheelmoved', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-wheelmoved', {
                 detail: {
                     mouse: this.mouseLocation,
                     keys: this.currentKeys,
@@ -837,7 +837,7 @@
         finrelease: function(e) {
             this.holdPulseCount = 0;
             this.mouseLocation = this.getLocal(e);
-            this.dispatchEvent(new CustomEvent('fin-release', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-release', {
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
@@ -858,7 +858,7 @@
                 return;
             }
             this.mouseLocation = this.getLocal(e);
-            this.dispatchEvent(new CustomEvent('fin-flick', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-flick', {
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
@@ -880,7 +880,7 @@
                 return;
             }
             this.mouseLocation = this.getLocal(e);
-            this.dispatchEvent(new CustomEvent('fin-trackstart', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-trackstart', {
                 detail: {
                     mouse: this.mouseLocation,
                     keys: this.currentKeys,
@@ -901,7 +901,7 @@
                 return;
             }
             this.mouseLocation = this.getLocal(e);
-            this.dispatchEvent(new CustomEvent('fin-track', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-track', {
                 detail: {
                     mouse: this.mouseLocation,
                     keys: this.currentKeys,
@@ -919,7 +919,7 @@
          */
         fintrackend: function(e) {
             this.mouseLocation = this.getLocal(e);
-            this.dispatchEvent(new CustomEvent('fin-trackend', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-trackend', {
                 detail: {
                     mouse: this.mouseLocation,
                     keys: this.currentKeys,
@@ -936,7 +936,7 @@
          */
         finhold: function(e) {
             this.mouseLocation = this.getLocal(e);
-            this.dispatchEvent(new CustomEvent('fin-hold', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-hold', {
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
@@ -955,7 +955,7 @@
          */
         finholdpulse: function(e) {
             this.mouseLocation = this.getLocal(e);
-            this.dispatchEvent(new CustomEvent('fin-holdpulse', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-holdpulse', {
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
@@ -998,7 +998,7 @@
                 return;
             }
             this.mouseLocation = this.getLocal(e);
-            this.dispatchEvent(new CustomEvent('fin-tap', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-tap', {
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
@@ -1017,7 +1017,7 @@
         findblclick: function(e) {
             this.mouseLocation = this.getLocal(e);
             this.lastDoubleClickTime = Date.now();
-            this.dispatchEvent(new CustomEvent('fin-dblclick', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-dblclick', {
                 detail: {
                     primitiveEvent: e,
                     mouse: this.mouseLocation,
@@ -1122,7 +1122,7 @@
          */
         finfocusgained: function(e) {
             this.focused = true;
-            this.dispatchEvent(new CustomEvent('fin-focus-gained', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-focus-gained', {
                 detail: {
                     primitiveEvent: e,
                 }
@@ -1138,7 +1138,7 @@
          */
         finfocuslost: function(e) {
             this.focused = false;
-            this.dispatchEvent(new CustomEvent('fin-focus-lost', {
+            this.dispatchEvent(new CustomEvent('fin-canvas-focus-lost', {
                 detail: {
                     primitiveEvent: e,
                 }
