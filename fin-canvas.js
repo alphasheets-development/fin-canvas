@@ -763,7 +763,7 @@
                     isRightClick: this.isRightClick(e)
                 }
             }));
-            this.mouseLocation = this.g.point.create(-1, -1);
+            //this.mouseLocation = this.g.point.create(-1, -1);
         },
 
         /**
