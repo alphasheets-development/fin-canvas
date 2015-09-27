@@ -816,6 +816,11 @@
          * @method finclick(e)
          */
         finclick: function(e) {
+            if (Date.now() - this.lastClickTime < 250) {
+                //this is a double click...
+                this.findblclick(e);
+                return;
+            }
             this.mouseLocation = this.getLocal(e);
             this.dispatchEvent(new CustomEvent('fin-canvas-click', {
                 detail: {
@@ -825,6 +830,7 @@
                     isRightClick: this.isRightClick(e)
                 }
             }));
+            this.lastClickTime = Date.now();
         },
 
         /**
@@ -1025,6 +1031,7 @@
                     isRightClick: this.isRightClick(e)
                 }
             }));
+            console.log('dblclick', this.currentKeys);
         },
 
         getCharMap: function() {
@@ -1153,6 +1160,14 @@
          * @method finfocuslost(e)
          */
         fincontextmenu: function(e) {
+            if (e.ctrlKey && this.currentKeys.indexOf('CTRL') === -1) {
+                this.currentKeys.push('CTRL');
+            }
+            if (Date.now() - this.lastClickTime < 250) {
+                //this is a double click...
+                this.findblclick(e);
+                return;
+            }
             this.dispatchEvent(new CustomEvent('fin-canvas-context-menu', {
                 detail: {
                     primitiveEvent: e,
@@ -1161,6 +1176,7 @@
                     isRightClick: this.isRightClick(e)
                 }
             }));
+            this.lastClickTime = Date.now();
         },
 
         /**
