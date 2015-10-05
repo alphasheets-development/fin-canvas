@@ -1031,7 +1031,7 @@
                     isRightClick: this.isRightClick(e)
                 }
             }));
-            console.log('dblclick', this.currentKeys);
+            //console.log('dblclick', this.currentKeys);
         },
 
         getCharMap: function() {
