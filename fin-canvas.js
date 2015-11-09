@@ -290,6 +290,7 @@
 
         lastDoubleClickTime: 0,
         dragEndTime: 0,
+        lastRepaintTime: 0,
 
         /**
          *                                                                      .
@@ -453,11 +454,10 @@
                 return;
             }
             var interval = 1000 / fps;
-            var lastRepaintTime = 0;
 
-            var delta = now - lastRepaintTime;
-            if (delta > interval && this.repaintNow) {
-                lastRepaintTime = now - (delta % interval);
+            var elapsed = now - this.lastRepaintTime;
+            if (elapsed > interval && this.repaintNow) {
+                this.lastRepaintTime = now - (elapsed % interval);
                 this.paintNow();
             }
         },
