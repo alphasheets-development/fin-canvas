@@ -329,9 +329,9 @@
             document.addEventListener('mouseup', function(e) {
                 self.finmouseup(e);
             });
-            document.addEventListener('wheel', function(e) {
-                self.finwheelmoved(e);
-            });
+            // document.addEventListener('wheel', function(e) {
+            //     self.finwheelmoved(e);
+            // });
 
             this.focuser.addEventListener('focus', function(e) {
                 self.finfocusgained(e);
